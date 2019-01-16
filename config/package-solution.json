@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "hamilton-vfl-charts-client-side-solution",
+    "id": "bb0aab78-10ec-4e9b-bca2-56046726c899",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/hamilton-vfl-charts.sppkg"
+  }
+}

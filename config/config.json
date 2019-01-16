@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "hamiltpn-vfl-chart-1-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/hamiltpnVflChart1/HamiltpnVflChart1WebPart.js",
+          "manifest": "./src/webparts/hamiltpnVflChart1/HamiltpnVflChart1WebPart.manifest.json"
+        }
+      ]
+    },
+    "hamilton-vfl-data-provider-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/hamiltonVflDataProvider/HamiltonVflDataProviderWebPart.js",
+          "manifest": "./src/webparts/hamiltonVflDataProvider/HamiltonVflDataProviderWebPart.manifest.json"
+        }
+      ]
+    },
+    "hamilton-vfl-chart-2-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/hamiltonVflChart2/HamiltonVflChart2WebPart.js",
+          "manifest": "./src/webparts/hamiltonVflChart2/HamiltonVflChart2WebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "HamiltpnVflChart1WebPartStrings": "lib/webparts/hamiltpnVflChart1/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "HamiltonVflDataProviderWebPartStrings": "lib/webparts/hamiltonVflDataProvider/loc/{locale}.js",
+    "HamiltonVflChart2WebPartStrings": "lib/webparts/hamiltonVflChart2/loc/{locale}.js"
+  }
+}
