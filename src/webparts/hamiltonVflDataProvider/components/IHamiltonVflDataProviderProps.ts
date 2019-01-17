@@ -5,4 +5,5 @@ export interface IHamiltonVflDataProviderProps {
   startDate:Date;
   endDate:Date;
   fetchData:()=>void;
+  errorMessage:string;
 }

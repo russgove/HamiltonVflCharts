@@ -4,29 +4,56 @@ import { Version } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneDynamicField
 } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'HamiltonVflChart2WebPartStrings';
 import HamiltonVflChart2 from './components/HamiltonVflChart2';
 import { IHamiltonVflChart2Props } from './components/IHamiltonVflChart2Props';
+import { sp } from "@pnp/sp";
+import { VFL } from '../../dataModel';
+import { DynamicProperty } from '@microsoft/sp-component-base';
 
 export interface IHamiltonVflChart2WebPartProps {
   description: string;
+  vfls: DynamicProperty<object>;
+  startDate: DynamicProperty<Date>;
+  endDate: DynamicProperty<Date>;
 }
 
 export default class HamiltonVflChart2WebPart extends BaseClientSideWebPart<IHamiltonVflChart2WebPartProps> {
+   /**
+  * Event handler for clicking the Configure button on the Placeholder
+  */
+ private _onConfigure = (): void => {
+  this.context.propertyPane.open();
+}
+protected onInit(): Promise<void> {
+  return Promise.resolve();
+}
 
-  public render(): void {
-    const element: React.ReactElement<IHamiltonVflChart2Props > = React.createElement(
-      HamiltonVflChart2,
-      {
-        description: this.properties.description
-      }
-    );
 
-    ReactDom.render(element, this.domElement);
-  }
+public render(): void {
+
+  var vfls = [];
+  var startDate, endDate: Date;
+  if (this.properties.vfls) { vfls = this.properties.vfls.tryGetValues(); }
+  if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
+  if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
+  const element: React.ReactElement<IHamiltonVflChart2Props> = React.createElement(
+    HamiltonVflChart2,
+    {
+      description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
+      vfls: vfls as Array<VFL>,
+      startDate: startDate, endDate: endDate
+    }
+  );
+
+  ReactDom.render(element, this.domElement);
+}
+
+ 
 
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);
@@ -37,6 +64,7 @@ export default class HamiltonVflChart2WebPart extends BaseClientSideWebPart<IHam
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+
     return {
       pages: [
         {
@@ -47,9 +75,17 @@ export default class HamiltonVflChart2WebPart extends BaseClientSideWebPart<IHam
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
+
+                PropertyPaneDynamicField('vfls', {
+                  label: "VFL Provider"
+                }),
+                PropertyPaneDynamicField('startDate', {
+                  label: "Start Date"
+                }),
+                PropertyPaneDynamicField('endDate', {
+                  label: "End Date"
+                }),
+
               ]
             }
           ]

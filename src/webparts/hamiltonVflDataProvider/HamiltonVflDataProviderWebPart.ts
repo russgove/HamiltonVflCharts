@@ -22,6 +22,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
   private _selectedVFls: Array<VFL>=[];
   private _endDate: Date=lastDayOfMonth(new Date());
   private _startDate: Date =addMonths(lastDayOfMonth(new Date()),-6) ;
+  private errorMessage:string;
   
   
   /**
@@ -50,14 +51,22 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
     sp.web.lists.getByTitle('VFL').items.filter(`Date_VFL ge datetime'${this._startDate.toISOString()}' and Date_VFL le datetime'${this._endDate.toISOString()}'`  ).getAll()
     .then(items=>{
       
-      this._selectedVFls = items;
+      this._selectedVFls = items.map((item)=>{
+        item.Date_VFL= new Date(item.Date_VFL);
+        
+        return item;
+      });
       // notify subscribers that the selected event has changed
       this.context.dynamicDataSourceManager.notifyPropertyChanged('vfls');
       this.context.dynamicDataSourceManager.notifyPropertyChanged('startDate');
       this.context.dynamicDataSourceManager.notifyPropertyChanged('endDate');
+      this.errorMessage="";
+      this.render();
     })
     .catch((err)=>{
       debugger;
+      this.errorMessage=err.message;
+      this.render();
     });
   }
   protected onInit(): Promise<void> {
@@ -108,7 +117,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
         
 
     }
-
+    this.errorMessage="Invalid Properrty ID";
     throw new Error('Bad property id');
   }
 
@@ -121,7 +130,8 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
         startDateChanged:this._startDateChanged,
         endDateChanged:this._endDateChanged,fetchData:this._fetchData,
         startDate:this._startDate,
-        endDate:this._endDate
+        endDate:this._endDate,
+        errorMessage:this.errorMessage
       }
     );
  

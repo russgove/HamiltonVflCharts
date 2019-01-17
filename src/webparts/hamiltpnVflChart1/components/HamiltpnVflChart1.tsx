@@ -243,7 +243,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
             },
             scales: {
               xAxes: [{
-                stacked: true,
+                stacked: false,
                 ticks: {
                   stepSize: 1,
                   min: 0,
@@ -251,7 +251,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
                 }
               }],
               yAxes: [{
-                stacked: true,
+                stacked: false,
                 ticks: {
                   beginAtZero: true,
                   autoSkip: false // otherwise some labels are hidden
