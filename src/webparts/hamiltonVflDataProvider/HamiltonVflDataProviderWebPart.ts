@@ -53,6 +53,8 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
       this._selectedVFls = items;
       // notify subscribers that the selected event has changed
       this.context.dynamicDataSourceManager.notifyPropertyChanged('vfls');
+      this.context.dynamicDataSourceManager.notifyPropertyChanged('startDate');
+      this.context.dynamicDataSourceManager.notifyPropertyChanged('endDate');
     })
     .catch((err)=>{
       debugger;
@@ -77,6 +79,13 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
       {
         id: 'vfls',
         title: 'VFLs'
+      },{
+        id: 'startDate',
+        title: 'startDate'
+      },
+      {
+        id: 'endDate',
+        title: 'endDate'
       },
 
     ];
@@ -85,11 +94,18 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
    * Return the current value of the specified dynamic data set
    * @param propertyId ID of the dynamic data set to retrieve the value for
    */
-  public getPropertyValue(propertyId: string): Array<VFL> {
+  public getPropertyValue(propertyId: string): Array<VFL> | Date {
   
     switch (propertyId) {
       case 'vfls':
         return this._selectedVFls;
+        
+        case 'startDate':
+        return this._startDate;
+        
+        case 'endDate':
+        return this._endDate;
+        
 
     }
 

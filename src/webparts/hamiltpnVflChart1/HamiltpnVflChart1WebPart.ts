@@ -21,6 +21,8 @@ import { DynamicProperty } from '@microsoft/sp-component-base';
 export interface IHamiltpnVflChart1WebPartProps {
   description: string;
   vfls: DynamicProperty<object>;
+  startDate: DynamicProperty<Date>;
+  endDate: DynamicProperty<Date>;
 }
 
 export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHamiltpnVflChart1WebPartProps>   {
@@ -37,13 +39,18 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
 
   public render(): void {
+    debugger;
     var vfls = [];
+    var startDate, endDate: Date;
     if (this.properties.vfls) { vfls = this.properties.vfls.tryGetValues(); }
+    if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
+    if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
     const element: React.ReactElement<IHamiltpnVflChart1Props> = React.createElement(
       HamiltpnVflChart1,
       {
         description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
-        vfls: vfls as Array<VFL>
+        vfls: vfls as Array<VFL>,
+        startDate: startDate, endDate: endDate
       }
     );
 
@@ -73,6 +80,12 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
                 PropertyPaneDynamicField('vfls', {
                   label: "VFL Provider"
+                }),
+                PropertyPaneDynamicField('startDate', {
+                  label: "Start Date"
+                }),
+                PropertyPaneDynamicField('endDate', {
+                  label: "End Date"
                 }),
 
               ]

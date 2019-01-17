@@ -236,6 +236,11 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
             ]
           }}
           options={{
+            title: {
+              display: true, position: 'top',
+              text: `from ${this.props.startDate.toDateString()} to ${this.props.endDate.toDateString()}`
+
+            },
             scales: {
               xAxes: [{
                 stacked: true,
