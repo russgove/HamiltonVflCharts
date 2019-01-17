@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styles from './HamiltonVflChart2.module.scss';
 import { IHamiltonVflChart2Props } from './IHamiltonVflChart2Props';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { escape, fromPairs } from '@microsoft/sp-lodash-subset';
 import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
+
 import { groupBy, countBy, reduce, uniqWith, isEqual } from 'lodash';
 import { VFL } from '../../../dataModel';
 import { format } from 'date-fns'
@@ -13,7 +14,7 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
 
   }
   public render(): React.ReactElement<IHamiltonVflChart2Props> {
-   
+    var chartData:any={};
     var allmonthyears = this.props.vfls.map((vfl: VFL) => {
       return {
         year: vfl.Date_VFL.getFullYear(),
@@ -21,15 +22,16 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
         desc: format(vfl.Date_VFL, "MMM-YY")
       };
     });
-    var uniqMonthYears = uniqWith(allmonthyears, isEqual);
-    let memo = uniqMonthYears.map((umy) => {
+    chartData.labels = uniqWith(allmonthyears, isEqual);
+    let memo = chartData.labels.map((umy) => {
       return {
         ...umy, Mgmt: 0, FrontLine: 0, Contractor: 0, Other: 0
 
       };
     });
     debugger;
-    let newresults = reduce(this.props.vfls, (memox, curr: VFL) => {
+    
+    chartData.datasets=reduce(this.props.vfls, (memox, curr: VFL) => {
     
       for (var memoItem of memox) {
         if (curr.Date_VFL.getFullYear() == memoItem['year'] && curr.Date_VFL.getMonth() == memoItem['month']) {
@@ -52,6 +54,8 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
       }
       return memo;
     }, memo);
+
+    
     debugger;
     let results = reduce(this.props.vfls, (memo, curr: VFL) => {
       switch (curr.VFL_Role) {
