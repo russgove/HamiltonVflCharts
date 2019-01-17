@@ -6,11 +6,16 @@ import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
 import { groupBy, countBy, reduce } from 'lodash';
 import { VFL } from '../../../dataModel';
 export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart1Props, {}> {
+  public componentWillReceiveProps(newProps: IHamiltpnVflChart1Props, oldProps: IHamiltpnVflChart1Props) {
+    debugger;
+    this.render();
+
+  }
   public render(): React.ReactElement<IHamiltpnVflChart1Props> {
     debugger;
     let results = reduce(this.props.vfls, (memo, curr: VFL) => {
       switch (curr.VFL_Role) {
-        case "Management":
+        case "Mgmt":
           memo.Management.Moment_High_Impact += curr.Moment_High_Impact;
           memo.Management.Mng_Walkaround += curr.Mng_Walkaround;
           memo.Management.DarnGoodQuestion += curr.DarnGoodQuestion;
@@ -37,7 +42,26 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
           memo.Contractor.Golden_x0020_Rules += curr.Golden_x0020_Rules;
           memo.Contractor.Toolbox_mtg += curr.Toolbox_mtg;
           break;
+        case "OE Team":
+          memo.OETeam.Moment_High_Impact += curr.Moment_High_Impact;
+          memo.OETeam.Mng_Walkaround += curr.Mng_Walkaround;
+          memo.OETeam.DarnGoodQuestion += curr.DarnGoodQuestion;
+          memo.OETeam.SafetyStumpSpeech += curr.SafetyStumpSpeech;
+          memo.OETeam.Sorry += curr.Sorry;
+          memo.OETeam.Golden_x0020_Rules += curr.Golden_x0020_Rules;
+          memo.OETeam.Toolbox_mtg += curr.Toolbox_mtg;
+          break;
+        case "T & I":
+          memo.TAndI.Moment_High_Impact += curr.Moment_High_Impact;
+          memo.TAndI.Mng_Walkaround += curr.Mng_Walkaround;
+          memo.TAndI.DarnGoodQuestion += curr.DarnGoodQuestion;
+          memo.TAndI.SafetyStumpSpeech += curr.SafetyStumpSpeech;
+          memo.TAndI.Sorry += curr.Sorry;
+          memo.TAndI.Golden_x0020_Rules += curr.Golden_x0020_Rules;
+          memo.TAndI.Toolbox_mtg += curr.Toolbox_mtg;
+          break;
         default:
+          console.log(curr.VFL_Role);
           memo.Other.Moment_High_Impact += curr.Moment_High_Impact;
           memo.Other.Mng_Walkaround += curr.Mng_Walkaround;
           memo.Other.DarnGoodQuestion += curr.DarnGoodQuestion;
@@ -75,6 +99,22 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
           Sorry: 0,
           Golden_x0020_Rules: 0,
           Toolbox_mtg: 0
+        }, OETeam: {
+          Moment_High_Impact: 0,
+          Mng_Walkaround: 0,
+          DarnGoodQuestion: 0,
+          SafetyStumpSpeech: 0,
+          Sorry: 0,
+          Golden_x0020_Rules: 0,
+          Toolbox_mtg: 0
+        }, TAndI: {
+          Moment_High_Impact: 0,
+          Mng_Walkaround: 0,
+          DarnGoodQuestion: 0,
+          SafetyStumpSpeech: 0,
+          Sorry: 0,
+          Golden_x0020_Rules: 0,
+          Toolbox_mtg: 0
         }, Other: {
           Moment_High_Impact: 0,
           Mng_Walkaround: 0,
@@ -84,7 +124,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
           Golden_x0020_Rules: 0,
           Toolbox_mtg: 0
         }
-      })
+      });
     debugger;
     return (
       <div className={styles.hamiltpnVflChart1}>
@@ -102,7 +142,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
             datasets: [
               {
                 label: "Management",
-                backgroundColor: "rgba(54, 162, 235, 0.5)",
+                backgroundColor: "rgba(45, 63, 146, 1)",
                 data: [
                   results.Management.Moment_High_Impact,
                   results.Management.Mng_Walkaround,
@@ -117,7 +157,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
               },
               {
                 label: "Frontline",
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
+                backgroundColor: "rgba(148, 201, 71, 1)",
                 data: [
                   results.Frontline.Moment_High_Impact,
                   results.Frontline.Mng_Walkaround,
@@ -129,11 +169,41 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
                 ],
 
                 borderWidth: 1
+              },
+              {
+                label: "OE Team",
+                backgroundColor: "rgba(248, 232, 22, 1)",
+                data: [
+                  results.OETeam.Moment_High_Impact,
+                  results.OETeam.Mng_Walkaround,
+                  results.OETeam.DarnGoodQuestion,
+                  results.OETeam.SafetyStumpSpeech,
+                  results.OETeam.Sorry,
+                  results.OETeam.Golden_x0020_Rules,
+                  results.OETeam.Toolbox_mtg
+                ],
+
+                borderWidth: 1
+              },
+              {
+                label: "T & I",
+                backgroundColor: "rgba(131, 121, 184, 1)",
+                data: [
+                  results.TAndI.Moment_High_Impact,
+                  results.TAndI.Mng_Walkaround,
+                  results.TAndI.DarnGoodQuestion,
+                  results.TAndI.SafetyStumpSpeech,
+                  results.TAndI.Sorry,
+                  results.TAndI.Golden_x0020_Rules,
+                  results.TAndI.Toolbox_mtg
+                ],
+
+                borderWidth: 1
               }
               ,
               {
                 label: "Contractor",
-                backgroundColor: "rgba(12, 99, 132, 0.5)",
+                backgroundColor: "rgba(243, 108, 49, 1)",
                 data: [
                   results.Contractor.Moment_High_Impact,
                   results.Contractor.Mng_Walkaround,

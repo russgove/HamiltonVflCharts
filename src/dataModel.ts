@@ -1,13 +1,13 @@
 export  class VFL{
-    Id:number;
-    Title:string;
-    VFL_Role:string;
-    Date_VFL:Date;
-    Moment_High_Impact:number;
-    Mng_Walkaround:number;
-    DarnGoodQuestion:number;
-    SafetyStumpSpeech:number;
-    Sorry:number;
-    Golden_x0020_Rules:number;
-    Toolbox_mtg:number;
+    public Id:number;
+    public     Title:string;
+    public     VFL_Role:string;
+    public     Date_VFL:Date;
+    public  Moment_High_Impact:number;
+    public   Mng_Walkaround:number;
+    public DarnGoodQuestion:number;
+    public SafetyStumpSpeech:number;
+    public Sorry:number;
+    public Golden_x0020_Rules:number;
+    public Toolbox_mtg:number;
 }

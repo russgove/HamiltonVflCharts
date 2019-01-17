@@ -56,7 +56,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
     })
     .catch((err)=>{
       debugger;
-    })
+    });
   }
   protected onInit(): Promise<void> {
     sp.setup({
@@ -64,7 +64,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
     });
     // register this web part as dynamic data source
     this.context.dynamicDataSourceManager.initializeSource(this);
-
+    this._fetchData();
     return Promise.resolve();
   }
 

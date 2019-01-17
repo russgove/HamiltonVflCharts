@@ -2,8 +2,8 @@ import * as React from 'react';
 import styles from './HamiltonVflDataProvider.module.scss';
 import { IHamiltonVflDataProviderProps } from './IHamiltonVflDataProviderProps';
 import { escape } from '@microsoft/sp-lodash-subset';
-import {DatePicker} from "office-ui-fabric-react/lib/DatePicker" 
-import {PrimaryButton} from "office-ui-fabric-react/lib/Button" 
+import {DatePicker} from "office-ui-fabric-react/lib/DatePicker" ;
+import {PrimaryButton} from "office-ui-fabric-react/lib/Button" ;
 
 export default class HamiltonVflDataProvider extends React.Component<IHamiltonVflDataProviderProps, {}> {
   public render(): React.ReactElement<IHamiltonVflDataProviderProps> {
