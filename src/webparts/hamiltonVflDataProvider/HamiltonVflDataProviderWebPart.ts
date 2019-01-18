@@ -14,8 +14,10 @@ import { sp } from "@pnp/sp";
 import { VFL } from '../../dataModel';
 import { autobind } from '@uifabric/utilities/lib';
 import {addMonths,  lastDayOfMonth} from 'date-fns';
+import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
 export interface IHamiltonVflDataProviderWebPartProps {
   description: string;
+  list:string;
 }
 
 export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPart<IHamiltonVflDataProviderWebPartProps> implements IDynamicDataCallables {
@@ -159,6 +161,19 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                }),
+                PropertyFieldListPicker('list', {
+                  label: 'Select a list',
+                  selectedList: this.properties.list,
+                  includeHidden: false,
+                  orderBy: PropertyFieldListPickerOrderBy.Title,
+                  disabled: false,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  context: this.context,
+                  onGetErrorMessage: null,
+                  deferredValidationTime: 0,
+                  key: 'listPickerFieldId'
                 })
               ]
             }

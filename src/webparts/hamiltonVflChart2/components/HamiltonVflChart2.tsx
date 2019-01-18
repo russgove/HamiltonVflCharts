@@ -6,7 +6,7 @@ import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
 
 import { groupBy, countBy, reduce, uniqWith, isEqual } from 'lodash';
 import { VFL } from '../../../dataModel';
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart2Props, {}> {
   public componentWillReceiveProps(newProps: IHamiltonVflChart2Props, oldProps: IHamiltonVflChart2Props) {
 

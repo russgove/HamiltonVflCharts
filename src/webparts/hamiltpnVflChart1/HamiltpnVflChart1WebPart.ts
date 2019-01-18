@@ -17,12 +17,17 @@ import { IHamiltpnVflChart1Props } from './components/IHamiltpnVflChart1Props';
 import { sp } from "@pnp/sp";
 import { VFL } from '../../dataModel';
 import { DynamicProperty } from '@microsoft/sp-component-base';
+import { PropertyFieldCodeEditor, PropertyFieldCodeEditorLanguages } from '@pnp/spfx-property-controls/lib/PropertyFieldCodeEditor';
 
 export interface IHamiltpnVflChart1WebPartProps {
   description: string;
   vfls: DynamicProperty<object>;
   startDate: DynamicProperty<Date>;
   endDate: DynamicProperty<Date>;
+  chartOptions: any;
+  majorGroup: string;
+  minorGroup: string;
+  measures: string;
 }
 
 export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHamiltpnVflChart1WebPartProps>   {
@@ -39,18 +44,27 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
 
   public render(): void {
-    debugger;
+    
     var vfls = [];
+    var chartOptions = {};
     var startDate, endDate: Date;
     if (this.properties.vfls) { vfls = this.properties.vfls.tryGetValues(); }
     if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
     if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
+
+    if (this.properties.chartOptions) { chartOptions = JSON.parse(this.properties.chartOptions); }
+
     const element: React.ReactElement<IHamiltpnVflChart1Props> = React.createElement(
       HamiltpnVflChart1,
       {
         description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
         vfls: vfls as Array<VFL>,
-        startDate: startDate, endDate: endDate
+        startDate: startDate,
+        endDate: endDate,
+        chartOptions: chartOptions,
+        majorGroup: this.properties.majorGroup,
+        minorGroup: this.properties.minorGroup,
+        measures: this.properties.measures.split(",")
       }
     );
 
@@ -87,6 +101,26 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
                 PropertyPaneDynamicField('endDate', {
                   label: "End Date"
                 }),
+                PropertyPaneTextField('majorGroup', {
+                  label: "Major Group"
+                }),
+                PropertyPaneTextField('minorGroup', {
+                  label: "minor Group"
+                }),
+                PropertyPaneTextField('measures', {
+                  label: "measures"
+                }),
+
+                PropertyFieldCodeEditor('chartOptions', {
+                  language: PropertyFieldCodeEditorLanguages.JSON, label: 'Edit Chart Configuration',
+                  panelTitle: 'Edit Chart Configuration',
+                  initialValue: this.properties.chartOptions,
+                  onPropertyChange: this.onPropertyPaneFieldChanged,
+                  properties: this.properties,
+                  disabled: false,
+                  key: 'codeEditorFieldId',
+
+                })
 
               ]
             }

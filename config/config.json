@@ -32,6 +32,7 @@
     "HamiltpnVflChart1WebPartStrings": "lib/webparts/hamiltpnVflChart1/loc/{locale}.js",
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
     "HamiltonVflDataProviderWebPartStrings": "lib/webparts/hamiltonVflDataProvider/loc/{locale}.js",
-    "HamiltonVflChart2WebPartStrings": "lib/webparts/hamiltonVflChart2/loc/{locale}.js"
+    "HamiltonVflChart2WebPartStrings": "lib/webparts/hamiltonVflChart2/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }
