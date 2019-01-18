@@ -14,7 +14,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
   }
   public render(): React.ReactElement<IHamiltpnVflChart1Props> {
     debugger;
-    let mewChartData = {};
+    let mewChartData : any= {};
     let initMemo2 = {};
     let allMajorGroups: string[] = map(this.props.vfls, x => {
       return x[this.props.majorGroup]?x[this.props.majorGroup]:"{null}"// give the null values a label so we can index them
@@ -41,7 +41,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
       memo[VFL[this.props.majorGroup]]
       return memo
     },initMemo2);
-
+mewChartData.labels=this.props.measures;
 
 
 
