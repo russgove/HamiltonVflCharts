@@ -25,8 +25,9 @@ export interface IHamiltpnVflChart1WebPartProps {
   startDate: DynamicProperty<Date>;
   endDate: DynamicProperty<Date>;
   chartOptions: any;
-  majorGroup: string;
-  minorGroup: string;
+  majorGroupFieldName: string;
+  majorGroupFieldValueColors: any;
+  minorGroupFieldName: string;
   measures: string;
 }
 
@@ -46,13 +47,14 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
   public render(): void {
     
     var vfls = [];
-    var chartOptions = {};
+    var chartOptions ,majorGroupFieldValueColors= {};
     var startDate, endDate: Date;
     if (this.properties.vfls) { vfls = this.properties.vfls.tryGetValues(); }
     if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
     if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
 
     if (this.properties.chartOptions) { chartOptions = JSON.parse(this.properties.chartOptions); }
+    if (this.properties.majorGroupFieldValueColors) { majorGroupFieldValueColors = JSON.parse(this.properties.majorGroupFieldValueColors); }
 
     const element: React.ReactElement<IHamiltpnVflChart1Props> = React.createElement(
       HamiltpnVflChart1,
@@ -62,8 +64,9 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
         startDate: startDate,
         endDate: endDate,
         chartOptions: chartOptions,
-        majorGroup: this.properties.majorGroup,
-        minorGroup: this.properties.minorGroup,
+        majorGroup: this.properties.majorGroupFieldName,
+        majorGroupFieldValueColors:majorGroupFieldValueColors,
+        minorGroup: this.properties.minorGroupFieldName,
         measures: this.properties.measures.split(",")
       }
     );
@@ -119,6 +122,17 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
                   properties: this.properties,
                   disabled: false,
                   key: 'codeEditorFieldId',
+
+                }),
+
+                PropertyFieldCodeEditor('majorGroupFieldValueColors', {
+                  language: PropertyFieldCodeEditorLanguages.JSON, label: 'set colors for field values',
+                  panelTitle: 'set colors for field values',
+                  initialValue: this.properties.majorGroupFieldValueColors,
+                  onPropertyChange: this.onPropertyPaneFieldChanged,
+                  properties: this.properties,
+                  disabled: false,
+                  key: 'codeEditorFieldId2',
 
                 })
 

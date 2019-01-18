@@ -25,9 +25,10 @@
       "officeFabricIconFontName": "Page",
       "properties": {
         "description": "HamiltpnVflChart1",
-        "majorGroup":"VFL_Role",
-        "minorGroup":"",
-        "measures":"Moment_High_Impact,Mng_Walkaround,DarnGoodQuestion,SafetyStumpSpeech,Sorry,Golden_x0020_Rules,Toolbox_mtg",
+        "majorGroupFieldName": "VFL_Role",
+        "majorGroupFieldValueColors":"{\r\n        \"Mgmt\": \"#223322\",\r\n        \"Frontline\": \"#3a6d72\",\r\n        \"OE Team\": \"#384732\",\r\n        \"T & I\": \"#384732\",\r\n        \"Contractor\": \"#784363\",\r\n        \"Other\": \"#8d837e\"\r\n      }",
+        "minorGroupFieldName": "",
+        "measures": "Moment_High_Impact,Mng_Walkaround,DarnGoodQuestion,SafetyStumpSpeech,Sorry,Golden_x0020_Rules,Toolbox_mtg",
         "chartOptions": "{        \"title\": {          \"display\": true, \"position\": \"top\",          \"text\": \"SS\"       },        \"scales\": {          \"xAxes\": [{            \"stacked\": true,            \"ticks\": {              \"stepSize\": 1,              \"min\": 0,             \"autoSkip\": false            }          }],          \"yAxes\": [{            \"stacked\": true,            \"ticks\": {              \"beginAtZero\": true,              \"autoSkip\": false             }          }]        }      }"
       }
     }

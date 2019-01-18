@@ -6,6 +6,7 @@ import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
 import { escape, isEqual, groupBy, countBy, reduce, map, uniqBy, uniq } from 'lodash';
 import { VFL } from '../../../dataModel';
 import { memoize } from '@uifabric/utilities/lib';
+import { PropertyPaneSlider } from '@microsoft/sp-webpart-base';
 export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart1Props, {}> {
   public componentWillReceiveProps(newProps: IHamiltpnVflChart1Props, oldProps: IHamiltpnVflChart1Props) {
     debugger;
@@ -14,10 +15,10 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
   }
   public render(): React.ReactElement<IHamiltpnVflChart1Props> {
     debugger;
-    let mewChartData : any= {};
+    let mewChartData: any = {};
     let initMemo2 = {};
     let allMajorGroups: string[] = map(this.props.vfls, x => {
-      return x[this.props.majorGroup]?x[this.props.majorGroup]:"{null}"// give the null values a label so we can index them
+      return x[this.props.majorGroup] ? x[this.props.majorGroup] : "{null}"// give the null values a label so we can index them
     });
     let uniqMajorGroups: string[] = uniq(allMajorGroups);
 
@@ -30,18 +31,30 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
     debugger;
     let results2 = reduce(this.props.vfls, (memo, curr: VFL) => {
       for (var measure of this.props.measures) {
-        if (curr[this.props.majorGroup]==null){
-          memo["{null}"][measure] +=curr[measure];
+        if (curr[this.props.majorGroup] == null) {
+          memo["{null}"][measure] += curr[measure];
         }
-        else{
-          memo[curr[this.props.majorGroup]][measure]  +=curr[measure];
+        else {
+          memo[curr[this.props.majorGroup]][measure] += curr[measure];
         }
-        
+
       }
       memo[VFL[this.props.majorGroup]]
       return memo
-    },initMemo2);
-mewChartData.labels=this.props.measures;
+    }, initMemo2);
+    mewChartData.labels = this.props.measures;
+    mewChartData.datasets = [];
+    for (var result in results2) {
+      let dataset = { label: result, data: [] };
+      if (this.props.majorGroupFieldValueColors[result]){
+        dataset["backgroundColor"]=this.props.majorGroupFieldValueColors[result];
+      }
+      for (var measure of this.props.measures) {
+        dataset.data.push(results2[result][measure]);
+      }
+      mewChartData.datasets.push(dataset)
+
+    };
 
 
 
@@ -271,7 +284,7 @@ mewChartData.labels=this.props.measures;
     return (
       <div className={styles.hamiltpnVflChart1}>
         <ChartControl type={ChartType.Bar}
-          data={chartData}
+          data={mewChartData}
           options={this.props.chartOptions}
         // options={{
         //   'title': {
