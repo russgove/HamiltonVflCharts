@@ -29,6 +29,7 @@ export interface IHamiltpnVflChart1WebPartProps {
   majorGroupFieldValueColors: any;
   minorGroupFieldName: string;
   measures: string;
+
 }
 
 export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHamiltpnVflChart1WebPartProps>   {
@@ -55,6 +56,7 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
     if (this.properties.chartOptions) { chartOptions = JSON.parse(this.properties.chartOptions); }
     if (this.properties.majorGroupFieldValueColors) { majorGroupFieldValueColors = JSON.parse(this.properties.majorGroupFieldValueColors); }
+
 
     const element: React.ReactElement<IHamiltpnVflChart1Props> = React.createElement(
       HamiltpnVflChart1,
@@ -94,6 +96,7 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
             {
               groupName: strings.BasicGroupName,
               groupFields: [
+              
 
                 PropertyPaneDynamicField('vfls', {
                   label: "VFL Provider"
@@ -104,10 +107,10 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
                 PropertyPaneDynamicField('endDate', {
                   label: "End Date"
                 }),
-                PropertyPaneTextField('majorGroup', {
+                PropertyPaneTextField('majorGroupFieldName', {
                   label: "Major Group"
                 }),
-                PropertyPaneTextField('minorGroup', {
+                PropertyPaneTextField('minorGroupFieldNaem', {
                   label: "minor Group"
                 }),
                 PropertyPaneTextField('measures', {
