@@ -7,7 +7,7 @@ export interface IHamiltpnVflChart1Props {
   chartOptions: any;
   majorGroup: string;
   minorGroup: string;
-  measures: string[];
+  measures: any;
   majorGroupFieldValueColors:object;
  
 }

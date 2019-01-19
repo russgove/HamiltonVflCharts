@@ -26,14 +26,14 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
     let initMemo = {};
     for (var majorGroup of uniqMajorGroups) {
       initMemo[majorGroup] = {};
-      for (var measure of this.props.measures) {
+      for (var measure in this.props.measures) {
         initMemo[majorGroup][measure] = 0;
       }
     }
 
     // reduce (summarize) the data
     let results = reduce(this.props.vfls, (memo, curr: VFL) => {
-      for (var measure2 of this.props.measures) {
+      for (var measure2 in this.props.measures) {
         if (curr[this.props.majorGroup] == null) {
           memo["{null}"][measure2] += curr[measure2];
         }
@@ -43,30 +43,37 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
       }
       return memo;
     }, initMemo);
-
+debugger;
     // create the charData 
     let chartData: any = {};
-    chartData.labels = this.props.measures;
+    chartData.labels = [];
+    for (var m in this.props.measures){
+      chartData.labels.push(this.props.measures[m]);
+    }
     chartData.datasets = [];
     for (var result in results) {
       let dataset = { label: result, data: [] };// how can i create this as a typed object?
       if (this.props.majorGroupFieldValueColors[result]) {
         dataset["backgroundColor"] = this.props.majorGroupFieldValueColors[result];
       }
-      for (var measure of this.props.measures) {
+      for (var measure in this.props.measures) {
         dataset.data.push(results[result][measure]);
       }
       chartData.datasets.push(dataset);
     }
-    
+
     // onterpoloate the title
     debugger;
-    let chartOptions=this.props.chartOptions;
-    let chartTitle:string =chartOptions.title.text;
-    chartTitle=chartTitle.replace("${startDate}",this.props.startDate.toLocaleDateString());
-    chartTitle=chartTitle.replace("${endDate}",this.props.endDate.toLocaleDateString());
+    let chartOptions = this.props.chartOptions;
+    let chartTitle: string = chartOptions.title.text;
+    if (this.props.startDate) {
+      chartTitle = chartTitle.replace("${startDate}", this.props.startDate.toLocaleDateString());
+    }
+    if (this.props.endDate) {
+      chartTitle = chartTitle.replace("${endDate}", this.props.endDate.toLocaleDateString());
+    }
 
-    chartOptions.title.text=chartTitle;
+    chartOptions.title.text = chartTitle;
 
 
 

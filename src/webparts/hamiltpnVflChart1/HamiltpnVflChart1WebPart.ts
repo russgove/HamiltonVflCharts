@@ -28,7 +28,7 @@ export interface IHamiltpnVflChart1WebPartProps {
   majorGroupFieldName: string;
   majorGroupFieldValueColors: any;
   minorGroupFieldName: string;
-  measures: string;
+  measures: any;
 
 }
 
@@ -46,9 +46,9 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
 
   public render(): void {
-    
+
     var vfls = [];
-    var chartOptions ,majorGroupFieldValueColors= {};
+    var chartOptions, measures, majorGroupFieldValueColors = {};
     var startDate, endDate: Date;
     if (this.properties.vfls) { vfls = this.properties.vfls.tryGetValues(); }
     if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
@@ -56,6 +56,7 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
     if (this.properties.chartOptions) { chartOptions = JSON.parse(this.properties.chartOptions); }
     if (this.properties.majorGroupFieldValueColors) { majorGroupFieldValueColors = JSON.parse(this.properties.majorGroupFieldValueColors); }
+    if (this.properties.measures) { measures = JSON.parse(this.properties.measures); }
 
 
     const element: React.ReactElement<IHamiltpnVflChart1Props> = React.createElement(
@@ -67,9 +68,9 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
         endDate: endDate,
         chartOptions: chartOptions,
         majorGroup: this.properties.majorGroupFieldName,
-        majorGroupFieldValueColors:majorGroupFieldValueColors,
+        majorGroupFieldValueColors: majorGroupFieldValueColors,
         minorGroup: this.properties.minorGroupFieldName,
-        measures: this.properties.measures.split(",")
+        measures: measures
       }
     );
 
@@ -96,7 +97,7 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-              
+
 
                 PropertyPaneDynamicField('vfls', {
                   label: "VFL Provider"
@@ -113,9 +114,19 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
                 PropertyPaneTextField('minorGroupFieldNaem', {
                   label: "minor Group"
                 }),
-                PropertyPaneTextField('measures', {
-                  label: "measures"
+
+
+                PropertyFieldCodeEditor('measures', {
+                  language: PropertyFieldCodeEditorLanguages.JSON, label: 'Edit Measures',
+                  panelTitle: 'Measures and their labels',
+                  initialValue: this.properties.chartOptions,
+                  onPropertyChange: this.onPropertyPaneFieldChanged,
+                  properties: this.properties,
+                  disabled: false,
+                  key: 'codeEditorFieldId3',
+
                 }),
+
 
                 PropertyFieldCodeEditor('chartOptions', {
                   language: PropertyFieldCodeEditorLanguages.JSON, label: 'Edit Chart Configuration',
