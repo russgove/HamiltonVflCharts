@@ -111,6 +111,16 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
                 PropertyPaneTextField('majorGroupFieldName', {
                   label: "Major Group"
                 }),
+                PropertyFieldCodeEditor('majorGroupFieldValueColors', {
+                  language: PropertyFieldCodeEditorLanguages.JSON, label: 'set colors for field values',
+                  panelTitle: 'set colors for field values',
+                  initialValue: this.properties.majorGroupFieldValueColors,
+                  onPropertyChange: this.onPropertyPaneFieldChanged,
+                  properties: this.properties,
+                  disabled: false,
+                  key: 'codeEditorFieldId2',
+
+                }),
                 PropertyPaneTextField('minorGroupFieldNaem', {
                   label: "minor Group"
                 }),
@@ -119,7 +129,7 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
                 PropertyFieldCodeEditor('measures', {
                   language: PropertyFieldCodeEditorLanguages.JSON, label: 'Edit Measures',
                   panelTitle: 'Measures and their labels',
-                  initialValue: this.properties.chartOptions,
+                  initialValue: this.properties.measures,
                   onPropertyChange: this.onPropertyPaneFieldChanged,
                   properties: this.properties,
                   disabled: false,
@@ -139,16 +149,6 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
                 }),
 
-                PropertyFieldCodeEditor('majorGroupFieldValueColors', {
-                  language: PropertyFieldCodeEditorLanguages.JSON, label: 'set colors for field values',
-                  panelTitle: 'set colors for field values',
-                  initialValue: this.properties.majorGroupFieldValueColors,
-                  onPropertyChange: this.onPropertyPaneFieldChanged,
-                  properties: this.properties,
-                  disabled: false,
-                  key: 'codeEditorFieldId2',
-
-                })
 
               ]
             }

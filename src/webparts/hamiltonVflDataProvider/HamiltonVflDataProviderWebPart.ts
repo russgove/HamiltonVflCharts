@@ -13,7 +13,7 @@ import { IHamiltonVflDataProviderProps } from './components/IHamiltonVflDataProv
 import { sp } from "@pnp/sp";
 import { VFL } from '../../dataModel';
 import { autobind } from '@uifabric/utilities/lib';
-import {addMonths,  lastDayOfMonth} from 'date-fns';
+import {addMonths,  lastDayOfMonth,format} from 'date-fns';
 import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
 export interface IHamiltonVflDataProviderWebPartProps {
   description: string;
@@ -55,6 +55,9 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
       
       this._selectedVFls = items.map((item)=>{
         item.Date_VFL= new Date(item.Date_VFL);
+        item.$$$year= item.Date_VFL.getFullYear(),
+        item.$$$mont= item.Date_VFL.getMonth(),
+        item.$$$MMM_YY= format(item.Date_VFL, "MMM-YY")
         
         return item;
       });
