@@ -35,19 +35,19 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
     let results = reduce(this.props.vfls, (memo, curr: VFL) => {
       for (var measure2 in this.props.measures) {
         if (curr[this.props.majorGroup] == null) {
-          memo["{null}"][measure2] += curr[measure2];
+          memo["{null}"][measure2] += (measure2=='*')?1:curr[measure2]; // if measyre us '*' just add to counter
         }
         else {
-          memo[curr[this.props.majorGroup]][measure2] += curr[measure2];
+          memo[curr[this.props.majorGroup]][measure2] +=(measure2=='*')?1: curr[measure2];
         }
       }
       return memo;
     }, initMemo);
-debugger;
+    debugger;
     // create the charData 
     let chartData: any = {};
     chartData.labels = [];
-    for (var m in this.props.measures){
+    for (var m in this.props.measures) {
       chartData.labels.push(this.props.measures[m]);
     }
     chartData.datasets = [];
