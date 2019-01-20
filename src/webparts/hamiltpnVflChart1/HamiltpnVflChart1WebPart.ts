@@ -109,10 +109,10 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
                   label: "End Date"
                 }),
                 PropertyPaneTextField('majorGroupFieldName', {
-                  label: "Major Group"
+                  label: "Major Group",description:"This is a field in the datasource. It will be presented as a bar, or as a segment of a bar if the chart is stacked"
                 }),
                 PropertyFieldCodeEditor('majorGroupFieldValueColors', {
-                  language: PropertyFieldCodeEditorLanguages.JSON, label: 'set colors for field values',
+                  language: PropertyFieldCodeEditorLanguages.JSON, label: 'foR each value of the Major Group, assign a color',
                   panelTitle: 'set colors for field values',
                   initialValue: this.properties.majorGroupFieldValueColors,
                   onPropertyChange: this.onPropertyPaneFieldChanged,

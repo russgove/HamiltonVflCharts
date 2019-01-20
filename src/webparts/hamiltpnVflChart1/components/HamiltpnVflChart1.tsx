@@ -17,7 +17,8 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
 
     debugger;
 
-    //get a list of unique values to sum by
+    //get a list of unique values to sum by. These will be the individual bars, or bar segment(if stacked).
+    // the legend for thes displays across the top of the page
     let uniqMajorGroups: string[] = uniq(map(this.props.vfls, x => {
       return x[this.props.majorGroup] ? x[this.props.majorGroup] : "{null}";// give the null values a label so we can index them
     }));
