@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.2/MicrosoftTeams.schema.json",
   "manifestVersion": "1.2",
-  "packageName": "HamiltonVflChart2",
-  "id": "651a05f5-6c66-420b-8632-32386d5fa16d",
+  "packageName": "HamiltonVflChart3",
+  "id": "b3b6fd60-55b6-4be1-843b-02c07cda9bfe",
   "version": "0.1",
   "developer": {
     "name": "SPFx + Teams Dev",
@@ -11,11 +11,11 @@
     "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
   },
   "name": {
-    "short": "HamiltonVflChart2"
+    "short": "HamiltonVflChart3"
   },
   "description": {
-    "short": "HamiltonVflChart2 description",
-    "full": "HamiltonVflChart2 description"
+    "short": "HamiltonVflChart3 description",
+    "full": "HamiltonVflChart3 description"
   },
   "icons": {
     "outline": "tab20x20.png",
@@ -24,7 +24,7 @@
   "accentColor": "#004578",
   "configurableTabs": [
     {
-      "configurationUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=651a05f5-6c66-420b-8632-32386d5fa16d",
+      "configurationUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=b3b6fd60-55b6-4be1-843b-02c07cda9bfe",
       "canUpdateConfiguration": false,
       "scopes": [
         "team"

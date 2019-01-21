@@ -25,6 +25,14 @@
           "manifest": "./src/webparts/hamiltonVflChart2/HamiltonVflChart2WebPart.manifest.json"
         }
       ]
+    },
+    "hamilton-vfl-chart-3-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/hamiltonVflChart3/HamiltonVflChart3WebPart.js",
+          "manifest": "./src/webparts/hamiltonVflChart3/HamiltonVflChart3WebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -33,6 +41,7 @@
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
     "HamiltonVflDataProviderWebPartStrings": "lib/webparts/hamiltonVflDataProvider/loc/{locale}.js",
     "HamiltonVflChart2WebPartStrings": "lib/webparts/hamiltonVflChart2/loc/{locale}.js",
-    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
+    "HamiltonVflChart3WebPartStrings": "lib/webparts/hamiltonVflChart3/loc/{locale}.js"
   }
 }
