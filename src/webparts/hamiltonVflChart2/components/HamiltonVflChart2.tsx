@@ -4,15 +4,33 @@ import { IHamiltonVflChart2Props } from './IHamiltonVflChart2Props';
 import { escape, fromPairs } from '@microsoft/sp-lodash-subset';
 import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
 
-import { groupBy, countBy, reduce, uniqWith, isEqual ,uniq,map} from 'lodash';
+import { groupBy, countBy, reduce, uniqWith, isEqual, uniq, map } from 'lodash';
 import { VFL } from '../../../dataModel';
 
 import { format } from 'date-fns';
+import { autobind } from '@uifabric/utilities/lib';
 export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart2Props, {}> {
+  private chartData: any = {};
   public componentWillReceiveProps(newProps: IHamiltonVflChart2Props, oldProps: IHamiltonVflChart2Props) {
 
     this.render();
 
+  }
+  @autobind
+  public onClick(c: any, i: any): void {
+    debugger;
+    const chart: any = i[0]._chart;
+    chart.getElementAtEvent(c);
+    var firstPoint = chart.getElementAtEvent(c)[0];
+    if (firstPoint) {
+      var label = chart.data.labels[firstPoint._index];
+      let year = label.substr(4, 2);
+      let monthName = label.substr(0, 3);
+      var month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(monthName) / 3 + 1;
+      var datasetLabel = chart.data.datasets[firstPoint._datasetIndex].label;
+      let url = `https://tronoxglobal.sharepoint.com/sites/VFL/Hamilton/Lists/VFL/AllItems.aspx?FilterField1=${this.props.majorGroup}&FilterValue1=${datasetLabel}&FilterField3=VFL_Month&FilterValue3=${month}&FilterType3=Text&FilterField2=VFL_Year&FilterValue2=${year}&FilterType2=Text`
+      window.open(url, "_blank")
+    }
   }
   public render(): React.ReactElement<IHamiltonVflChart2Props> {
     debugger;
@@ -38,17 +56,17 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
 
     // reduce (summarize) the data
     let results = reduce(this.props.vfls, (memo, curr: VFL) => {
-      let major=curr[this.props.majorGroup]==null?"{null}":curr[this.props.majorGroup];
-      let minor=curr[this.props.minorGroup]==null?"{null}":curr[this.props.minorGroup];
-      memo[major][minor]+=1;
+      let major = curr[this.props.majorGroup] == null ? "{null}" : curr[this.props.majorGroup];
+      let minor = curr[this.props.minorGroup] == null ? "{null}" : curr[this.props.minorGroup];
+      memo[major][minor] += 1;
       return memo;
     }, initMemo);
     debugger;
     // create the charData 
-    let chartData: any = {};
-    chartData.labels = uniqMinorGroups;
 
-    chartData.datasets = [];
+    this.chartData.labels = uniqMinorGroups;
+
+    this.chartData.datasets = [];
     for (var result in results) {
       let dataset = { label: result, data: [] };
       if (this.props.majorGroupFieldValueColors[result]) {
@@ -57,7 +75,7 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
       for (var minor of uniqMinorGroups) {
         dataset.data.push(results[result][minor]);
       }
-      chartData.datasets.push(dataset);
+      this.chartData.datasets.push(dataset);
     }
 
     // onterpoloate the title
@@ -78,10 +96,11 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
     return (
       <div className={styles.hamiltonVflChart2}>
         <ChartControl type={ChartType.Bar}
-          data={chartData}
+          data={this.chartData}
           options={chartOptions}
+          onClick={this.onClick}
         />
       </div>
     );
   }
-  }
+}

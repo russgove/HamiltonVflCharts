@@ -9,4 +9,8 @@ export interface IHamiltonVflChart3Props {
   minorGroup: string;
   measures: any;
   majorGroupFieldValueColors:object;
+
+  colorPalette:Array<string>;
+  filterField1:string;
+  filterValue1:string;
 }

@@ -26,6 +26,9 @@ export interface IHamiltonVflChart3WebPartProps {
   majorGroupFieldValueColors: any;
   minorGroupFieldName: string;
   measures: any;
+  colorPalette:string;
+  filterField1:string;
+  filterValue1:string;
 }
 
 export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHamiltonVflChart3WebPartProps> {
@@ -43,7 +46,7 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
     if (this.properties.majorGroupFieldValueColors) { majorGroupFieldValueColors = JSON.parse(this.properties.majorGroupFieldValueColors); }
     if (this.properties.measures) { measures = JSON.parse(this.properties.measures); }
   
-  
+  debugger;
     const element: React.ReactElement<IHamiltonVflChart3Props> = React.createElement(
       HamiltonVflChart3,
       {
@@ -55,7 +58,10 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
         majorGroup: this.properties.majorGroupFieldName,
         majorGroupFieldValueColors: majorGroupFieldValueColors,
         minorGroup: this.properties.minorGroupFieldName,
-        measures: measures
+        measures: measures,
+        colorPalette:this.properties.colorPalette.split(','),
+        filterField1:this.properties.filterField1,
+        filterValue1:this.properties.filterValue1
       }
     );
   
@@ -95,6 +101,13 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
                 PropertyPaneTextField('majorGroupFieldName', {
                   label: "Major Group",description:"This is a field in the datasource. It will be presented as a bar, or as a segment of a bar if the chart is stacked"
                 }),
+                PropertyPaneTextField('filterField1', {
+                  label: "Filter Field ",description:"filter field"
+                }),
+                PropertyPaneTextField('filterValue1', {
+                  label: "Filter Value ",description:"filter value"
+                }),
+       
                 PropertyFieldCodeEditor('majorGroupFieldValueColors', {
                   language: PropertyFieldCodeEditorLanguages.JSON, label: 'foR each value of the Major Group, assign a color',
                   panelTitle: 'set colors for field values',
@@ -107,6 +120,9 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
                 }),
                 PropertyPaneTextField('minorGroupFieldName', {
                   label: "Minor Group field"
+                }),
+                PropertyPaneTextField('colorPalette', {
+                  label: "Color Palette"
                 }),
   
   

@@ -3,16 +3,29 @@ import styles from './HamiltonVflChart3.module.scss';
 import { IHamiltonVflChart3Props } from './IHamiltonVflChart3Props';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
-
 import { groupBy, countBy, reduce, uniqWith, isEqual, uniq, map } from 'lodash';
 import { VFL } from '../../../dataModel';
-
 import { format } from 'date-fns';
+import { autobind } from '@uifabric/utilities/lib';
 
 export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart3Props, {}> {
-  public render(): React.ReactElement<IHamiltonVflChart3Props> {
+  @autobind
+  public onClick(c: any, i: any): void {
     debugger;
-
+    const chart: any = i[0]._chart;
+    chart.getElementAtEvent(c);
+    var firstPoint = chart.getElementAtEvent(c)[0];
+    if (firstPoint) {
+      var label = chart.data.labels[firstPoint._index];
+      let year = label.substr(4, 2);
+      let monthName = label.substr(0, 3);
+      var month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(monthName) / 3 + 1;
+      var datasetLabel = chart.data.datasets[firstPoint._datasetIndex].label;
+      let url = `https://tronoxglobal.sharepoint.com/sites/VFL/Hamilton/Lists/VFL/AllItems.aspx?useFiltersInViewXml=1&FilterField1=VFL_Year&FilterValue1=${year}&FilterType1=Text&FilterField2=VFL_Month&FilterValue2=${month}&FilterType2=Text&FilterField3=${datasetLabel}&FilterValue3=0&FilterOp3=Gt&FilterType3=Number&FilterField4=${this.props.filterField1}&FilterValue4=${this.props.filterValue1}`
+      window.open(url, "_blank")
+    }
+  }
+  public render(): React.ReactElement<IHamiltonVflChart3Props> {
     //get a list of unique values to sum by. These will be the individual bars, or bar segment(if stacked).
     // the legend for thes displays across the top of the page
     let uniqMajorGroups: string[] = uniq(map(this.props.vfls, x => {
@@ -27,21 +40,18 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
         initMemo[majorGroup][measure] = 0;
       }
     }
-    // for (var measure in this.props.measures) {
-    //   initMemo[measure] = {};
-    //   for (var majorGroup of uniqMajorGroups) {
-    //     initMemo[measure][majorGroup] = 0;
-    //   }
-    // }
-
+    debugger;
     // reduce (summarize) the data
     let results = reduce(this.props.vfls, (memo, curr: VFL) => {
-      for (var measure2 in this.props.measures) {
-        if (curr[this.props.majorGroup] == null) {
-          memo["{null}"][measure2] += (measure2 == '*') ? 1 : curr[measure2]; // if measyre us '*' just add to counter
-        }
-        else {
-          memo[curr[this.props.majorGroup]][measure2] += (measure2 == '*') ? 1 : curr[measure2];
+      // test filter valuesL
+      if (curr[this.props.filterField1] === this.props.filterValue1) {
+        for (var measure2 in this.props.measures) {
+          if (curr[this.props.majorGroup] == null) {
+            memo["{null}"][measure2] += (measure2 == '*') ? 1 : curr[measure2]; // if measyre us '*' just add to counter
+          }
+          else {
+            memo[curr[this.props.majorGroup]][measure2] += (measure2 == '*') ? 1 : curr[measure2];
+          }
         }
       }
       return memo;
@@ -56,9 +66,16 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
     }
 
     chartData.datasets = [];
+    var colorSelectpr: number = 0;
     for (var measure in this.props.measures) {
-      let dataset = { label: measure, data: [] };
-      for (var result in results){
+
+      let dataset = {
+        backgroundColor: this.props.colorPalette[colorSelectpr++],
+        label: measure,
+        data: []
+      };
+
+      for (var result in results) {
         dataset.data.push(results[result][measure]);
       }
       chartData.datasets.push(dataset);
@@ -95,6 +112,7 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
         <ChartControl type={ChartType.Bar}
           data={chartData}
           options={chartOptions}
+          onClick={this.onClick}
         />
       </div>
     );

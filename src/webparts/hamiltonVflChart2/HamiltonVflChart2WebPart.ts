@@ -27,6 +27,8 @@ export interface IHamiltonVflChart2WebPartProps {
   majorGroupFieldValueColors: any;
   minorGroupFieldName: string;
   measures: any;
+colorPalette:string,
+     
 }
 
 export default class HamiltonVflChart2WebPart extends BaseClientSideWebPart<IHamiltonVflChart2WebPartProps> {
@@ -65,7 +67,8 @@ public render(): void {
       majorGroup: this.properties.majorGroupFieldName,
       majorGroupFieldValueColors: majorGroupFieldValueColors,
       minorGroup: this.properties.minorGroupFieldName,
-      measures: measures
+      measures: measures,
+      colorPalette:this.properties.colorPalette.split(','),
     }
   );
 

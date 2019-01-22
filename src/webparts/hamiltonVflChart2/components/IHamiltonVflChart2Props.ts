@@ -10,5 +10,6 @@ export interface IHamiltonVflChart2Props {
   minorGroup: string;
   measures: any;
   majorGroupFieldValueColors:object;
+  colorPalette:Array<string>;
  
 }

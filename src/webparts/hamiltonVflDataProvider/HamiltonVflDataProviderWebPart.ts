@@ -13,7 +13,7 @@ import { IHamiltonVflDataProviderProps } from './components/IHamiltonVflDataProv
 import { sp } from "@pnp/sp";
 import { VFL } from '../../dataModel';
 import { autobind } from '@uifabric/utilities/lib';
-import {addMonths,  lastDayOfMonth,format} from 'date-fns';
+import {addMonths,  lastDayOfMonth,format,startOfMonth} from 'date-fns';
 import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
 export interface IHamiltonVflDataProviderWebPartProps {
   description: string;
@@ -23,7 +23,7 @@ export interface IHamiltonVflDataProviderWebPartProps {
 export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPart<IHamiltonVflDataProviderWebPartProps> implements IDynamicDataCallables {
   private _selectedVFls: Array<VFL>=[];
   private _endDate: Date=lastDayOfMonth(new Date());
-  private _startDate: Date =addMonths(lastDayOfMonth(new Date()),-6) ;
+  private _startDate: Date =startOfMonth(addMonths(lastDayOfMonth(new Date()),-6)) ;
   private errorMessage:string;
   
   
@@ -40,12 +40,11 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
 
   @autobind
   private _startDateChanged(sd:Date):void{
-
-    this._startDate=sd;
+    this._startDate=startOfMonth(sd);
   }
   @autobind
   private _endDateChanged(ed:Date):void{
-    this._endDate=ed;
+    this._endDate=lastDayOfMonth(ed);
   }
   @autobind
   private _fetchData():void{

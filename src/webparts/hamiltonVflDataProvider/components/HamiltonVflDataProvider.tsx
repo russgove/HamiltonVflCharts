@@ -18,7 +18,7 @@ export default class HamiltonVflDataProvider extends React.Component<IHamiltonVf
           </td>
           <td>
 
-            <DatePicker  onSelectDate={this.props.startDateChanged} value={this.props.startDate} />
+            <DatePicker  onSelectDate={this.props.startDateChanged} value={this.props.startDate}  />
           </td>
           <Label>End Date</Label>
           <td>
