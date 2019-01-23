@@ -18,6 +18,7 @@
     "@pnp/common": "1.2.8",
     "@pnp/logging": "1.2.8",
     "@pnp/odata": "1.2.8",
+    "@pnp/polyfill-ie11": "1.0.1",
     "@pnp/sp": "1.2.8",
     "@pnp/spfx-controls-react": "1.11.0",
     "@pnp/spfx-property-controls": "1.13.1",

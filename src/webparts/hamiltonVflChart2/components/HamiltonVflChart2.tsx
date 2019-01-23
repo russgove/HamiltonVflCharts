@@ -3,12 +3,14 @@ import styles from './HamiltonVflChart2.module.scss';
 import { IHamiltonVflChart2Props } from './IHamiltonVflChart2Props';
 import { escape, fromPairs } from '@microsoft/sp-lodash-subset';
 import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
+import { DetailsList, IColumn } from "office-ui-fabric-react/lib/DetailsList";
 
 import { groupBy, countBy, reduce, uniqWith, isEqual, uniq, map } from 'lodash';
 import { VFL } from '../../../dataModel';
 
 import { format } from 'date-fns';
 import { autobind } from '@uifabric/utilities/lib';
+import { createPortal } from 'react-dom';
 export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart2Props, {}> {
   private chartData: any = {};
   public componentWillReceiveProps(newProps: IHamiltonVflChart2Props, oldProps: IHamiltonVflChart2Props) {
@@ -91,7 +93,19 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
 
     chartOptions.title.text = chartTitle;
 
-
+    //extract data for grid,
+    var resultArray = [];
+    for (var result in results) {
+      let copy=results[result];
+      copy.title=result;
+      resultArray.push(copy);
+    }
+    let cols: Array<IColumn> = [{key: 'title', name: '', fieldName: 'title', minWidth: 72,isResizable:true}];
+    for (var lbl of uniqMinorGroups) {
+      cols.push({
+        key: lbl, name: lbl, fieldName: lbl, minWidth: 72,isResizable:true
+      })
+    }
 
     return (
       <div className={styles.hamiltonVflChart2}>
@@ -100,6 +114,12 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
           options={chartOptions}
           onClick={this.onClick}
         />
+        <hr />
+        <DetailsList items={resultArray} columns={cols}
+
+        >
+
+        </DetailsList>
       </div>
     );
   }

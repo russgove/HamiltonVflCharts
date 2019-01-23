@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
+import "@pnp/polyfill-ie11";
 import { Version } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
@@ -48,6 +49,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
   }
   @autobind
   private _fetchData():void{
+    debugger;
     
     sp.web.lists.getByTitle('VFL').items.filter(`Date_VFL ge datetime'${this._startDate.toISOString()}' and Date_VFL le datetime'${this._endDate.toISOString()}'`  ).getAll()
     .then(items=>{

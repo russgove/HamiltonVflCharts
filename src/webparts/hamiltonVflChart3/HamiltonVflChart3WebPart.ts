@@ -46,7 +46,7 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
     if (this.properties.majorGroupFieldValueColors) { majorGroupFieldValueColors = JSON.parse(this.properties.majorGroupFieldValueColors); }
     if (this.properties.measures) { measures = JSON.parse(this.properties.measures); }
   
-  debugger;
+
     const element: React.ReactElement<IHamiltonVflChart3Props> = React.createElement(
       HamiltonVflChart3,
       {
