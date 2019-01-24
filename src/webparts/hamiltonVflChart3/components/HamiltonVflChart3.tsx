@@ -7,12 +7,13 @@ import { groupBy, countBy, reduce, uniqWith, isEqual, uniq, map } from 'lodash';
 import { VFL } from '../../../dataModel';
 import { format } from 'date-fns';
 import { autobind } from '@uifabric/utilities/lib';
-import { DetailsList, IColumn } from "office-ui-fabric-react/lib/DetailsList";
+import { DetailsList, IColumn, DetailsListLayoutMode } from "office-ui-fabric-react/lib/DetailsList";
+import { Label } from 'office-ui-fabric-react/lib/Label';
 
 export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart3Props, {}> {
   @autobind
   public onClick(c: any, i: any): void {
-   
+
     const chart: any = i[0]._chart;
     chart.getElementAtEvent(c);
     var firstPoint = chart.getElementAtEvent(c)[0];
@@ -41,7 +42,7 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
         initMemo[majorGroup][measure] = 0;
       }
     }
- 
+
     // reduce (summarize) the data
     let results = reduce(this.props.vfls, (memo, curr: VFL) => {
       // test filter valuesL
@@ -57,7 +58,7 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
       }
       return memo;
     }, initMemo);
-   
+
 
     // create the charData 
     let chartData: any = {};
@@ -94,7 +95,7 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
     // }
 
     // interpoloate the title
-    
+
     let chartOptions = this.props.chartOptions;
     let chartTitle: string = chartOptions.title.text;
     if (this.props.startDate) {
@@ -105,30 +106,30 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
     }
 
     chartOptions.title.text = chartTitle;
-//extract data for grid,
-var resultArray = [];
-// for (var result in results) {
-//   let copy=results[result];
-//   copy.title=result;
-//   resultArray.push(copy);
-// }
-debugger;
-let cols: Array<IColumn> = [{key: 'title', name: '', fieldName: 'title', minWidth: 72,isResizable:true}];
-for (var m of uniqMajorGroups) {
-  cols.push({
-    key: m, name: m, fieldName: m, minWidth: 72,isResizable:true
-  })
-}
+    //extract data for grid,
+    var resultArray = [];
+    // for (var result in results) {
+    //   let copy=results[result];
+    //   copy.title=result;
+    //   resultArray.push(copy);
+    // }
+    debugger;
+    let cols: Array<IColumn> = [{ key: 'title', name: '', fieldName: 'title', minWidth: 150, isResizable: true }];
+    for (var m of uniqMajorGroups) {
+      cols.push({
+        key: m, name: m, fieldName: m, minWidth: 72, isResizable: true
+      })
+    }
 
 
-for (var measure in this.props.measures){
-  let x={title:measure};
-  for (var result in results) {
-    x[result]=results[result][measure];
-  }
-  resultArray.push(x);
+    for (var measure in this.props.measures) {
+      let x = { title: measure };
+      for (var result in results) {
+        x[result] = results[result][measure];
+      }
+      resultArray.push(x);
 
-}
+    }
 
 
 
@@ -139,9 +140,9 @@ for (var measure in this.props.measures){
           options={chartOptions}
           onClick={this.onClick}
         />
-        <hr />
-         <DetailsList items={resultArray} columns={cols}
-
+        <Label className={styles.header} >{chartTitle +" (details)"} </Label>
+        <DetailsList items={resultArray} columns={cols}
+ 
         />
 
       </div>

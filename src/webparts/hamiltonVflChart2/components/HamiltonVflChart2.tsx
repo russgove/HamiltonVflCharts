@@ -4,6 +4,7 @@ import { IHamiltonVflChart2Props } from './IHamiltonVflChart2Props';
 import { escape, fromPairs } from '@microsoft/sp-lodash-subset';
 import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
 import { DetailsList, IColumn } from "office-ui-fabric-react/lib/DetailsList";
+import { Label } from "office-ui-fabric-react/lib/Label";
 
 import { groupBy, countBy, reduce, uniqWith, isEqual, uniq, map } from 'lodash';
 import { VFL } from '../../../dataModel';
@@ -114,7 +115,7 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
           options={chartOptions}
           onClick={this.onClick}
         />
-        <hr />
+         <Label className={styles.header} >{chartTitle +" (details)"} </Label>
         <DetailsList items={resultArray} columns={cols}
 
         >
