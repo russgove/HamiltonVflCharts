@@ -1,4 +1,4 @@
-export  class VFL{
+export  class Item{
     public Id:number;
     public     Title:string;
     public     VFL_Role:string;

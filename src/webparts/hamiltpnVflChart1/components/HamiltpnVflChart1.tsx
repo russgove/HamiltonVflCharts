@@ -4,7 +4,7 @@ import { IHamiltpnVflChart1Props } from './IHamiltpnVflChart1Props';
 
 import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
 import { escape, isEqual, groupBy, countBy, reduce, map, uniqBy, uniq } from 'lodash';
-import { VFL } from '../../../dataModel';
+import { Item } from '../../../dataModel';
 import { memoize } from '@uifabric/utilities/lib';
 import { PropertyPaneSlider } from '@microsoft/sp-webpart-base';
 export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart1Props, {}> {
@@ -33,7 +33,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
     }
 
     // reduce (summarize) the data
-    let results = reduce(this.props.vfls, (memo, curr: VFL) => {
+    let results = reduce(this.props.vfls, (memo, curr: Item) => {
       for (var measure2 in this.props.measures) {
         if (curr[this.props.majorGroup] == null) {
           memo["{null}"][measure2] += (measure2=='*')?1:curr[measure2]; // if measyre us '*' just add to counter

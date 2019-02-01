@@ -15,7 +15,7 @@ import * as strings from 'HamiltpnVflChart1WebPartStrings';
 import HamiltpnVflChart1 from './components/HamiltpnVflChart1';
 import { IHamiltpnVflChart1Props } from './components/IHamiltpnVflChart1Props';
 import { sp } from "@pnp/sp";
-import { VFL } from '../../dataModel';
+import { Item } from '../../dataModel';
 import { DynamicProperty } from '@microsoft/sp-component-base';
 import { PropertyFieldCodeEditor, PropertyFieldCodeEditorLanguages } from '@pnp/spfx-property-controls/lib/PropertyFieldCodeEditor';
 
@@ -63,7 +63,7 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
       HamiltpnVflChart1,
       {
         description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
-        vfls: vfls as Array<VFL>,
+        vfls: vfls as Array<Item>,
         startDate: startDate,
         endDate: endDate,
         chartOptions: chartOptions,

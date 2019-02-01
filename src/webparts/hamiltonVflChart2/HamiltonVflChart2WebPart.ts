@@ -12,7 +12,7 @@ import * as strings from 'HamiltonVflChart2WebPartStrings';
 import HamiltonVflChart2 from './components/HamiltonVflChart2';
 import { IHamiltonVflChart2Props } from './components/IHamiltonVflChart2Props';
 import { sp } from "@pnp/sp";
-import { VFL } from '../../dataModel';
+import { Item } from '../../dataModel';
 import { DynamicProperty } from '@microsoft/sp-component-base';
 import { PropertyFieldCodeEditor, PropertyFieldCodeEditorLanguages } from '@pnp/spfx-property-controls/lib/PropertyFieldCodeEditor';
 
@@ -60,7 +60,7 @@ public render(): void {
     HamiltonVflChart2,
     {
       description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
-      vfls: vfls as Array<VFL>,
+      vfls: vfls as Array<Item>,
       startDate: startDate,
       endDate: endDate,
       chartOptions: chartOptions,

@@ -7,7 +7,7 @@ import { DetailsList, IColumn } from "office-ui-fabric-react/lib/DetailsList";
 import { Label } from "office-ui-fabric-react/lib/Label";
 
 import { groupBy, countBy, reduce, uniqWith, isEqual, uniq, map } from 'lodash';
-import { VFL } from '../../../dataModel';
+import { Item } from '../../../dataModel';
 
 import { format } from 'date-fns';
 import { autobind } from '@uifabric/utilities/lib';
@@ -58,7 +58,7 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
     }
 
     // reduce (summarize) the data
-    let results = reduce(this.props.vfls, (memo, curr: VFL) => {
+    let results = reduce(this.props.vfls, (memo, curr: Item) => {
       let major = curr[this.props.majorGroup] == null ? "{null}" : curr[this.props.majorGroup];
       let minor = curr[this.props.minorGroup] == null ? "{null}" : curr[this.props.minorGroup];
       memo[major][minor] += 1;

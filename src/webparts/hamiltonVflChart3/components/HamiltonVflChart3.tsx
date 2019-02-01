@@ -4,7 +4,7 @@ import { IHamiltonVflChart3Props } from './IHamiltonVflChart3Props';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { ChartControl, ChartType } from "@pnp/spfx-controls-react";
 import { groupBy, countBy, reduce, uniqWith, isEqual, uniq, map } from 'lodash';
-import { VFL } from '../../../dataModel';
+import { Item } from '../../../dataModel';
 import { format } from 'date-fns';
 import { autobind } from '@uifabric/utilities/lib';
 import { DetailsList, IColumn, DetailsListLayoutMode } from "office-ui-fabric-react/lib/DetailsList";
@@ -43,7 +43,7 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
     }
 
     // reduce (summarize) the data
-    let results = reduce(this.props.vfls, (memo, curr: VFL) => {
+    let results = reduce(this.props.vfls, (memo, curr: Item) => {
       // test filter valuesL
       if (curr[this.props.filterField1] === this.props.filterValue1) {
         for (var measure2 in this.props.measures) {

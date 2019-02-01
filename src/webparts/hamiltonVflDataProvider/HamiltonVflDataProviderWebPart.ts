@@ -12,7 +12,7 @@ import * as strings from 'HamiltonVflDataProviderWebPartStrings';
 import HamiltonVflDataProvider from './components/HamiltonVflDataProvider';
 import { IHamiltonVflDataProviderProps } from './components/IHamiltonVflDataProviderProps';
 import { sp } from "@pnp/sp";
-import { VFL } from '../../dataModel';
+import { Item } from '../../dataModel';
 import { autobind } from '@uifabric/utilities/lib';
 import {addMonths,  lastDayOfMonth,format,startOfMonth} from 'date-fns';
 import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
@@ -22,7 +22,7 @@ export interface IHamiltonVflDataProviderWebPartProps {
 }
 
 export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPart<IHamiltonVflDataProviderWebPartProps> implements IDynamicDataCallables {
-  private _selectedVFls: Array<VFL>=[];
+  private _selectedItems: Array<Item>=[];
   private _endDate: Date=lastDayOfMonth(new Date());
   private _startDate: Date =startOfMonth(addMonths(lastDayOfMonth(new Date()),-6)) ;
   private errorMessage:string;
@@ -31,10 +31,10 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
   /**
   * Event handler for selecting an event in the list
   */
-  private _eventSelected = (vfls: Array<VFL>): void => {
+  private _eventSelected = (items: Array<Item>): void => {
     // store the currently selected event in the class variable. Required
     // so that connected component will be able to retrieve its value
-    this._selectedVFls = vfls;
+    this._selectedItems = items;
     // notify subscribers that the selected event has changed
     this.context.dynamicDataSourceManager.notifyPropertyChanged('vfls');
   }
@@ -54,7 +54,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
     sp.web.lists.getById(this.properties.list).items.filter(`Date_VFL ge datetime'${this._startDate.toISOString()}' and Date_VFL le datetime'${this._endDate.toISOString()}'`  ).getAll()
     .then(items=>{
       
-      this._selectedVFls = items.map((item)=>{
+      this._selectedItems = items.map((item)=>{
         item.Date_VFL= new Date(item.Date_VFL);
         item.$$$year= item.Date_VFL.getFullYear();
         item.$$$mont= item.Date_VFL.getMonth();
@@ -109,11 +109,11 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
    * Return the current value of the specified dynamic data set
    * @param propertyId ID of the dynamic data set to retrieve the value for
    */
-  public getPropertyValue(propertyId: string): Array<VFL> | Date {
+  public getPropertyValue(propertyId: string): Array<Item> | Date {
   
     switch (propertyId) {
       case 'vfls':
-        return this._selectedVFls;
+        return this._selectedItems;
         
         case 'startDate':
         return this._startDate;

@@ -14,7 +14,7 @@ import { IHamiltonVflChart3Props } from './components/IHamiltonVflChart3Props';
 import { PropertyFieldCodeEditor, PropertyFieldCodeEditorLanguages } from '@pnp/spfx-property-controls/lib/PropertyFieldCodeEditor';
 import { DynamicProperty } from '@microsoft/sp-component-base';
 import { sp } from "@pnp/sp";
-import { VFL } from '../../dataModel';
+import { Item } from '../../dataModel';
 
 export interface IHamiltonVflChart3WebPartProps {
   description: string;
@@ -51,7 +51,7 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
       HamiltonVflChart3,
       {
         description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
-        vfls: vfls as Array<VFL>,
+        vfls: vfls as Array<Item>,
         startDate: startDate,
         endDate: endDate,
         chartOptions: chartOptions,
