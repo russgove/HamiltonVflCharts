@@ -27,7 +27,7 @@ export interface IHamiltonVflChart2WebPartProps {
   majorGroupFieldValueColors: any;
   minorGroupFieldName: string;
   measures: any;
-colorPalette:string,
+colorPalette:string;
      
 }
 

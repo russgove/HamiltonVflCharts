@@ -23,8 +23,8 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
       let monthName = label.substr(0, 3);
       var month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(monthName) / 3 + 1;
       var datasetLabel = chart.data.datasets[firstPoint._datasetIndex].label;
-      let url = `https://tronoxglobal.sharepoint.com/sites/VFL/Hamilton/Lists/VFL/AllItems.aspx?useFiltersInViewXml=1&FilterField1=VFL_Year&FilterValue1=${year}&FilterType1=Text&FilterField2=VFL_Month&FilterValue2=${month}&FilterType2=Text&FilterField3=${datasetLabel}&FilterValue3=0&FilterOp3=Gt&FilterType3=Number&FilterField4=${this.props.filterField1}&FilterValue4=${this.props.filterValue1}`
-      window.open(url, "_blank")
+      let url = `https://tronoxglobal.sharepoint.com/sites/VFL/Hamilton/Lists/VFL/AllItems.aspx?useFiltersInViewXml=1&FilterField1=VFL_Year&FilterValue1=${year}&FilterType1=Text&FilterField2=VFL_Month&FilterValue2=${month}&FilterType2=Text&FilterField3=${datasetLabel}&FilterValue3=0&FilterOp3=Gt&FilterType3=Number&FilterField4=${this.props.filterField1}&FilterValue4=${this.props.filterValue1}`;
+      window.open(url, "_blank");
     }
   }
   public render(): React.ReactElement<IHamiltonVflChart3Props> {
@@ -33,7 +33,6 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
     let uniqMajorGroups: string[] = uniq(map(this.props.vfls, x => {
       return x[this.props.majorGroup] ? x[this.props.majorGroup] : "{null}";// give the null values a label so we can index them
     }));
-
     // create the memo object used by  the reducer
     let initMemo = {};
     for (var majorGroup of uniqMajorGroups) {
@@ -118,7 +117,7 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
     for (var m of uniqMajorGroups) {
       cols.push({
         key: m, name: m, fieldName: m, minWidth: 72, isResizable: true
-      })
+      });
     }
 
 

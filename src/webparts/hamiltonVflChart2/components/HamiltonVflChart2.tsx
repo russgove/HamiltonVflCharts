@@ -31,8 +31,8 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
       let monthName = label.substr(0, 3);
       var month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(monthName) / 3 + 1;
       var datasetLabel = chart.data.datasets[firstPoint._datasetIndex].label;
-      let url = `https://tronoxglobal.sharepoint.com/sites/VFL/Hamilton/Lists/VFL/AllItems.aspx?FilterField1=${this.props.majorGroup}&FilterValue1=${datasetLabel}&FilterField3=VFL_Month&FilterValue3=${month}&FilterType3=Text&FilterField2=VFL_Year&FilterValue2=${year}&FilterType2=Text`
-      window.open(url, "_blank")
+      let url = `https://tronoxglobal.sharepoint.com/sites/VFL/Hamilton/Lists/VFL/AllItems.aspx?FilterField1=${this.props.majorGroup}&FilterValue1=${datasetLabel}&FilterField3=VFL_Month&FilterValue3=${month}&FilterType3=Text&FilterField2=VFL_Year&FilterValue2=${year}&FilterType2=Text`;
+      window.open(url, "_blank");
     }
   }
   public render(): React.ReactElement<IHamiltonVflChart2Props> {
@@ -105,7 +105,7 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
     for (var lbl of uniqMinorGroups) {
       cols.push({
         key: lbl, name: lbl, fieldName: lbl, minWidth: 72,isResizable:true
-      })
+      });
     }
 
     return (

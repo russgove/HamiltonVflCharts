@@ -56,9 +56,9 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
       
       this._selectedVFls = items.map((item)=>{
         item.Date_VFL= new Date(item.Date_VFL);
-        item.$$$year= item.Date_VFL.getFullYear(),
-        item.$$$mont= item.Date_VFL.getMonth(),
-        item.$$$MMM_YY= format(item.Date_VFL, "MMM-YY")
+        item.$$$year= item.Date_VFL.getFullYear();
+        item.$$$mont= item.Date_VFL.getMonth();
+        item.$$$MMM_YY= format(item.Date_VFL, "MMM-YY");
         
         return item;
       });
