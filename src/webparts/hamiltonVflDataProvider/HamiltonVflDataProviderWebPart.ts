@@ -51,7 +51,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
   private _fetchData():void{
     debugger;
     
-    sp.web.lists.getByTitle('VFL').items.filter(`Date_VFL ge datetime'${this._startDate.toISOString()}' and Date_VFL le datetime'${this._endDate.toISOString()}'`  ).getAll()
+    sp.web.lists.getById(this.properties.list).items.filter(`Date_VFL ge datetime'${this._startDate.toISOString()}' and Date_VFL le datetime'${this._endDate.toISOString()}'`  ).getAll()
     .then(items=>{
       
       this._selectedVFls = items.map((item)=>{
