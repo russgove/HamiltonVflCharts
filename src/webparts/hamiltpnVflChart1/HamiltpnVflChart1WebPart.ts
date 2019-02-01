@@ -100,7 +100,7 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
 
                 PropertyPaneDynamicField('items', {
-                  label: "VFL Provider"
+                  label: "Item Provider"
                 }),
                 PropertyPaneDynamicField('startDate', {
                   label: "Start Date"
