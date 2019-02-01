@@ -21,7 +21,7 @@ import { PropertyFieldCodeEditor, PropertyFieldCodeEditorLanguages } from '@pnp/
 
 export interface IHamiltpnVflChart1WebPartProps {
   description: string;
-  vfls: DynamicProperty<object>;
+  items: DynamicProperty<object>;
   startDate: DynamicProperty<Date>;
   endDate: DynamicProperty<Date>;
   chartOptions: any;
@@ -47,10 +47,10 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
 
   public render(): void {
 
-    var vfls = [];
+    var items = [];
     var chartOptions, measures, majorGroupFieldValueColors = {};
     var startDate, endDate: Date;
-    if (this.properties.vfls) { vfls = this.properties.vfls.tryGetValues(); }
+    if (this.properties.items) { items = this.properties.items.tryGetValues(); }
     if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
     if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
 
@@ -62,8 +62,8 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
     const element: React.ReactElement<IHamiltpnVflChart1Props> = React.createElement(
       HamiltpnVflChart1,
       {
-        description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
-        vfls: vfls as Array<Item>,
+        description: this.properties.items ? "Item COUNT" + items.length : "Nothing yet",
+        items: items as Array<Item>,
         startDate: startDate,
         endDate: endDate,
         chartOptions: chartOptions,
@@ -99,7 +99,7 @@ export default class HamiltpnVflChart1WebPart extends BaseClientSideWebPart<IHam
               groupFields: [
 
 
-                PropertyPaneDynamicField('vfls', {
+                PropertyPaneDynamicField('items', {
                   label: "VFL Provider"
                 }),
                 PropertyPaneDynamicField('startDate', {

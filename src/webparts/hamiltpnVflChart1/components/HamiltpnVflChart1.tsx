@@ -19,7 +19,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
 
     //get a list of unique values to sum by. These will be the individual bars, or bar segment(if stacked).
     // the legend for thes displays across the top of the page
-    let uniqMajorGroups: string[] = uniq(map(this.props.vfls, x => {
+    let uniqMajorGroups: string[] = uniq(map(this.props.items, x => {
       return x[this.props.majorGroup] ? x[this.props.majorGroup] : "{null}";// give the null values a label so we can index them
     }));
 
@@ -33,7 +33,7 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
     }
 
     // reduce (summarize) the data
-    let results = reduce(this.props.vfls, (memo, curr: Item) => {
+    let results = reduce(this.props.items, (memo, curr: Item) => {
       for (var measure2 in this.props.measures) {
         if (curr[this.props.majorGroup] == null) {
           memo["{null}"][measure2] += (measure2=='*')?1:curr[measure2]; // if measyre us '*' just add to counter

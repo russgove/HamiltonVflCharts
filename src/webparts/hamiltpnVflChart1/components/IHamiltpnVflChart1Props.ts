@@ -1,7 +1,7 @@
 import { Item } from "../../../dataModel";
 export interface IHamiltpnVflChart1Props {
   description: string;
-  vfls: Array<Item>;
+  items: Array<Item>;
   startDate: Date;
   endDate: Date;
   chartOptions: any;

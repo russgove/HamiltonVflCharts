@@ -18,7 +18,7 @@ import { Item } from '../../dataModel';
 
 export interface IHamiltonVflChart3WebPartProps {
   description: string;
-  vfls: DynamicProperty<object>;
+  items: DynamicProperty<object>;
   startDate: DynamicProperty<Date>;
   endDate: DynamicProperty<Date>;
   chartOptions: any;
@@ -35,10 +35,10 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
 
   public render(): void {
 
-    var vfls = [];
+    var items = [];
     var chartOptions, measures, majorGroupFieldValueColors = {};
     var startDate, endDate: Date;
-    if (this.properties.vfls) { vfls = this.properties.vfls.tryGetValues(); }
+    if (this.properties.items) { items = this.properties.items.tryGetValues(); }
     if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
     if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
   
@@ -50,8 +50,8 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
     const element: React.ReactElement<IHamiltonVflChart3Props> = React.createElement(
       HamiltonVflChart3,
       {
-        description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
-        vfls: vfls as Array<Item>,
+        description: this.properties.items ? "VFL COUNT" + items.length : "Nothing yet",
+        items: items as Array<Item>,
         startDate: startDate,
         endDate: endDate,
         chartOptions: chartOptions,
@@ -89,8 +89,8 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
               groupFields: [
   
   
-                PropertyPaneDynamicField('vfls', {
-                  label: "VFL Provider"
+                PropertyPaneDynamicField('items', {
+                  label: "List Item Provider"
                 }),
                 PropertyPaneDynamicField('startDate', {
                   label: "Start Date"

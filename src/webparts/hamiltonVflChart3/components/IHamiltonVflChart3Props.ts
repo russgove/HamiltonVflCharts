@@ -1,7 +1,7 @@
 import { Item } from "../../../dataModel";
 export interface IHamiltonVflChart3Props {
   description: string;
-  vfls: Array<Item>;
+  items: Array<Item>;
   startDate: Date;
   endDate: Date;
   chartOptions: any;

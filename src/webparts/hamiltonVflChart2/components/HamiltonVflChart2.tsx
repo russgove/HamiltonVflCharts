@@ -40,11 +40,11 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
 
     //get a list of unique values to sum by. These will be the individual bars, or bar segment(if stacked).
     // the legend for thes displays across the top of the page
-    let uniqMajorGroups: string[] = uniq(map(this.props.vfls, x => {
+    let uniqMajorGroups: string[] = uniq(map(this.props.items, x => {
       return x[this.props.majorGroup] ? x[this.props.majorGroup] : "{null}";// give the null values a label so we can index them
     }));
 
-    let uniqMinorGroups: string[] = uniq(map(this.props.vfls, x => {
+    let uniqMinorGroups: string[] = uniq(map(this.props.items, x => {
       return x[this.props.minorGroup] ? x[this.props.minorGroup] : "{null}";// give the null values a label so we can index them
     }));
 
@@ -58,7 +58,7 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
     }
 
     // reduce (summarize) the data
-    let results = reduce(this.props.vfls, (memo, curr: Item) => {
+    let results = reduce(this.props.items, (memo, curr: Item) => {
       let major = curr[this.props.majorGroup] == null ? "{null}" : curr[this.props.majorGroup];
       let minor = curr[this.props.minorGroup] == null ? "{null}" : curr[this.props.minorGroup];
       memo[major][minor] += 1;

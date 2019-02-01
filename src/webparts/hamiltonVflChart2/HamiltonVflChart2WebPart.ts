@@ -19,7 +19,7 @@ import { PropertyFieldCodeEditor, PropertyFieldCodeEditorLanguages } from '@pnp/
 
 export interface IHamiltonVflChart2WebPartProps {
   description: string;
-  vfls: DynamicProperty<object>;
+  items: DynamicProperty<object>;
   startDate: DynamicProperty<Date>;
   endDate: DynamicProperty<Date>;
   chartOptions: any;
@@ -44,10 +44,10 @@ protected onInit(): Promise<void> {
 
 public render(): void {
 
-  var vfls = [];
+  var items = [];
   var chartOptions, measures, majorGroupFieldValueColors = {};
   var startDate, endDate: Date;
-  if (this.properties.vfls) { vfls = this.properties.vfls.tryGetValues(); }
+  if (this.properties.items) { items = this.properties.items.tryGetValues(); }
   if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
   if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
 
@@ -59,8 +59,8 @@ public render(): void {
   const element: React.ReactElement<IHamiltonVflChart2Props> = React.createElement(
     HamiltonVflChart2,
     {
-      description: this.properties.vfls ? "VFL COUNT" + vfls.length : "Nothing yet",
-      vfls: vfls as Array<Item>,
+      description: this.properties.items ? "VFL COUNT" + items.length : "Nothing yet",
+      items: items as Array<Item>,
       startDate: startDate,
       endDate: endDate,
       chartOptions: chartOptions,
@@ -97,7 +97,7 @@ protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
             groupFields: [
 
 
-              PropertyPaneDynamicField('vfls', {
+              PropertyPaneDynamicField('items', {
                 label: "VFL Provider"
               }),
               PropertyPaneDynamicField('startDate', {

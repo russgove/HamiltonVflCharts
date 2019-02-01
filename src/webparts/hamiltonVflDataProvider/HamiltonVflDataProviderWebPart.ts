@@ -36,7 +36,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
     // so that connected component will be able to retrieve its value
     this._selectedItems = items;
     // notify subscribers that the selected event has changed
-    this.context.dynamicDataSourceManager.notifyPropertyChanged('vfls');
+    this.context.dynamicDataSourceManager.notifyPropertyChanged('items');
   }
 
   @autobind
@@ -63,7 +63,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
         return item;
       });
       // notify subscribers that the selected event has changed
-      this.context.dynamicDataSourceManager.notifyPropertyChanged('vfls');
+      this.context.dynamicDataSourceManager.notifyPropertyChanged('items');
       this.context.dynamicDataSourceManager.notifyPropertyChanged('startDate');
       this.context.dynamicDataSourceManager.notifyPropertyChanged('endDate');
       this.errorMessage="";
@@ -92,8 +92,8 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
   public getPropertyDefinitions(): ReadonlyArray<IDynamicDataPropertyDefinition> {
     return [
       {
-        id: 'vfls',
-        title: 'VFLs'
+        id: 'items',
+        title: 'Items'
       },{
         id: 'startDate',
         title: 'startDate'
@@ -112,7 +112,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
   public getPropertyValue(propertyId: string): Array<Item> | Date {
   
     switch (propertyId) {
-      case 'vfls':
+      case 'items':
         return this._selectedItems;
         
         case 'startDate':
