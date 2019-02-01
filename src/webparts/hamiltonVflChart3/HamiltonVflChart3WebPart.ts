@@ -21,14 +21,16 @@ export interface IHamiltonVflChart3WebPartProps {
   items: DynamicProperty<object>;
   startDate: DynamicProperty<Date>;
   endDate: DynamicProperty<Date>;
+  listUrl: DynamicProperty<string>;
+  viewName: string;
   chartOptions: any;
   majorGroupFieldName: string;
   majorGroupFieldValueColors: any;
   minorGroupFieldName: string;
   measures: any;
-  colorPalette:string;
-  filterField1:string;
-  filterValue1:string;
+  colorPalette: string;
+  filterField1: string;
+  filterValue1: string;
 }
 
 export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHamiltonVflChart3WebPartProps> {
@@ -38,19 +40,21 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
     var items = [];
     var chartOptions, measures, majorGroupFieldValueColors = {};
     var startDate, endDate: Date;
+    var listUrl: string;
     if (this.properties.items) { items = this.properties.items.tryGetValues(); }
     if (this.properties.startDate) { startDate = this.properties.startDate.tryGetValue(); }
     if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
-  
+    if (this.properties.listUrl) { listUrl = this.properties.listUrl.tryGetValue(); }
+
     if (this.properties.chartOptions) { chartOptions = JSON.parse(this.properties.chartOptions); }
     if (this.properties.majorGroupFieldValueColors) { majorGroupFieldValueColors = JSON.parse(this.properties.majorGroupFieldValueColors); }
     if (this.properties.measures) { measures = JSON.parse(this.properties.measures); }
-  
+
 
     const element: React.ReactElement<IHamiltonVflChart3Props> = React.createElement(
       HamiltonVflChart3,
       {
-        description: this.properties.items ? "VFL COUNT" + items.length : "Nothing yet",
+      
         items: items as Array<Item>,
         startDate: startDate,
         endDate: endDate,
@@ -59,15 +63,17 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
         majorGroupFieldValueColors: majorGroupFieldValueColors,
         minorGroup: this.properties.minorGroupFieldName,
         measures: measures,
-        colorPalette:this.properties.colorPalette.split(','),
-        filterField1:this.properties.filterField1,
-        filterValue1:this.properties.filterValue1
+        colorPalette: this.properties.colorPalette.split(','),
+        filterField1: this.properties.filterField1,
+        filterValue1: this.properties.filterValue1,
+        listUrl: listUrl,
+        viewName: this.properties.viewName
       }
     );
-  
+
     ReactDom.render(element, this.domElement);
   }
-  
+
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);
   }
@@ -87,8 +93,8 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-  
-  
+
+
                 PropertyPaneDynamicField('items', {
                   label: "List Item Provider"
                 }),
@@ -98,16 +104,22 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
                 PropertyPaneDynamicField('endDate', {
                   label: "End Date"
                 }),
+                PropertyPaneDynamicField('listUrl', {
+                  label: "List Url (used to provide links back to the list)"
+                }),
+                PropertyPaneTextField('viewName', {
+                  label: "The name of the view to be used when providing links back to the list(i.e. AllItems)"
+                }),
                 PropertyPaneTextField('majorGroupFieldName', {
-                  label: "Major Group",description:"This is a field in the datasource. It will be presented as a bar, or as a segment of a bar if the chart is stacked"
+                  label: "Major Group", description: "This is a field in the datasource. It will be presented as a bar, or as a segment of a bar if the chart is stacked"
                 }),
                 PropertyPaneTextField('filterField1', {
-                  label: "Filter Field ",description:"filter field"
+                  label: "Filter Field ", description: "filter field"
                 }),
                 PropertyPaneTextField('filterValue1', {
-                  label: "Filter Value ",description:"filter value"
+                  label: "Filter Value ", description: "filter value"
                 }),
-       
+
                 PropertyFieldCodeEditor('majorGroupFieldValueColors', {
                   language: PropertyFieldCodeEditorLanguages.JSON, label: 'foR each value of the Major Group, assign a color',
                   panelTitle: 'set colors for field values',
@@ -116,7 +128,7 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
                   properties: this.properties,
                   disabled: false,
                   key: 'codeEditorFieldId2',
-  
+
                 }),
                 PropertyPaneTextField('minorGroupFieldName', {
                   label: "Minor Group field"
@@ -124,8 +136,8 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
                 PropertyPaneTextField('colorPalette', {
                   label: "Color Palette"
                 }),
-  
-  
+
+
                 PropertyFieldCodeEditor('measures', {
                   language: PropertyFieldCodeEditorLanguages.JSON, label: 'Edit Measures',
                   panelTitle: 'Measures and their labels',
@@ -134,10 +146,10 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
                   properties: this.properties,
                   disabled: false,
                   key: 'codeEditorFieldId3',
-  
+
                 }),
-  
-  
+
+
                 PropertyFieldCodeEditor('chartOptions', {
                   language: PropertyFieldCodeEditorLanguages.JSON, label: 'Edit Chart Configuration',
                   panelTitle: 'Edit Chart Configuration',
@@ -146,10 +158,10 @@ export default class HamiltonVflChart3WebPart extends BaseClientSideWebPart<IHam
                   properties: this.properties,
                   disabled: false,
                   key: 'codeEditorFieldId',
-  
+
                 }),
-  
-  
+
+
               ]
             }
           ]

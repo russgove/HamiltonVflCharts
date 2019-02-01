@@ -23,7 +23,7 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
       let monthName = label.substr(0, 3);
       var month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(monthName) / 3 + 1;
       var datasetLabel = chart.data.datasets[firstPoint._datasetIndex].label;
-      let url = `https://tronoxglobal.sharepoint.com/sites/VFL/Hamilton/Lists/VFL/AllItems.aspx?useFiltersInViewXml=1&FilterField1=VFL_Year&FilterValue1=${year}&FilterType1=Text&FilterField2=VFL_Month&FilterValue2=${month}&FilterType2=Text&FilterField3=${datasetLabel}&FilterValue3=0&FilterOp3=Gt&FilterType3=Number&FilterField4=${this.props.filterField1}&FilterValue4=${this.props.filterValue1}`;
+      let url = `${this.props.listUrl}/${this.props.viewName}.aspx?useFiltersInViewXml=1&FilterField1=VFL_Year&FilterValue1=${year}&FilterType1=Text&FilterField2=VFL_Month&FilterValue2=${month}&FilterType2=Text&FilterField3=${datasetLabel}&FilterValue3=0&FilterOp3=Gt&FilterType3=Number&FilterField4=${this.props.filterField1}&FilterValue4=${this.props.filterValue1}`;
       window.open(url, "_blank");
     }
   }
@@ -82,17 +82,6 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
       chartData.datasets.push(dataset);
     }
 
-    // for (var result in results) {
-    //   let dataset = { label: result, data: [] };// how can i create this as a typed object?
-    //   if (this.props.majorGroupFieldValueColors[result]) {
-    //     dataset["backgroundColor"] = this.props.majorGroupFieldValueColors[result];
-    //   }
-    //   for (var measure in this.props.measures) {
-    //     dataset.data.push(results[result][measure]);
-    //   }
-    //   chartData.datasets.push(dataset);
-    // }
-
     // interpoloate the title
 
     let chartOptions = this.props.chartOptions;
@@ -105,14 +94,10 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
     }
 
     chartOptions.title.text = chartTitle;
+
     //extract data for grid,
     var resultArray = [];
-    // for (var result in results) {
-    //   let copy=results[result];
-    //   copy.title=result;
-    //   resultArray.push(copy);
-    // }
-    debugger;
+
     let cols: Array<IColumn> = [{ key: 'title', name: '', fieldName: 'title', minWidth: 150, isResizable: true }];
     for (var m of uniqMajorGroups) {
       cols.push({
@@ -139,9 +124,9 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
           options={chartOptions}
           onClick={this.onClick}
         />
-        <Label className={styles.header} >{chartTitle +" (details)"} </Label>
+        <Label className={styles.header} >{chartTitle + " (details)"} </Label>
         <DetailsList items={resultArray} columns={cols}
- 
+
         />
 
       </div>

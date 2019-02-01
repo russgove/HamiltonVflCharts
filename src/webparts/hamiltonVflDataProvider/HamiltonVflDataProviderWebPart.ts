@@ -11,69 +11,59 @@ import { IDynamicDataPropertyDefinition, IDynamicDataCallables } from '@microsof
 import * as strings from 'HamiltonVflDataProviderWebPartStrings';
 import HamiltonVflDataProvider from './components/HamiltonVflDataProvider';
 import { IHamiltonVflDataProviderProps } from './components/IHamiltonVflDataProviderProps';
-import { sp } from "@pnp/sp";
+import { sp, List, Folder } from "@pnp/sp";
 import { Item } from '../../dataModel';
-import { autobind } from '@uifabric/utilities/lib';
-import {addMonths,  lastDayOfMonth,format,startOfMonth} from 'date-fns';
+import { autobind, baseElementEvents } from '@uifabric/utilities/lib';
+import { addMonths, lastDayOfMonth, format, startOfMonth } from 'date-fns';
 import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
 export interface IHamiltonVflDataProviderWebPartProps {
   description: string;
-  list:string;
+  list: string;
 }
 
 export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPart<IHamiltonVflDataProviderWebPartProps> implements IDynamicDataCallables {
-  private _selectedItems: Array<Item>=[];
-  private _endDate: Date=lastDayOfMonth(new Date());
-  private _startDate: Date =startOfMonth(addMonths(lastDayOfMonth(new Date()),-6)) ;
-  private errorMessage:string;
-  
-  
-  /**
-  * Event handler for selecting an event in the list
-  */
-  private _eventSelected = (items: Array<Item>): void => {
-    // store the currently selected event in the class variable. Required
-    // so that connected component will be able to retrieve its value
-    this._selectedItems = items;
-    // notify subscribers that the selected event has changed
-    this.context.dynamicDataSourceManager.notifyPropertyChanged('items');
-  }
+  private _selectedItems: Array<Item> = [];
+  private _endDate: Date = lastDayOfMonth(new Date());
+  private _startDate: Date = startOfMonth(addMonths(lastDayOfMonth(new Date()), -6));
+  private _listUrl: string;
+  private errorMessage: string;
 
   @autobind
-  private _startDateChanged(sd:Date):void{
-    this._startDate=startOfMonth(sd);
+  private _startDateChanged(sd: Date): void {
+    this._startDate = startOfMonth(sd);
   }
   @autobind
-  private _endDateChanged(ed:Date):void{
-    this._endDate=lastDayOfMonth(ed);
+  private _endDateChanged(ed: Date): void {
+    this._endDate = lastDayOfMonth(ed);
   }
   @autobind
-  private _fetchData():void{
+  private _fetchData(): void {
     debugger;
-    
-    sp.web.lists.getById(this.properties.list).items.filter(`Date_VFL ge datetime'${this._startDate.toISOString()}' and Date_VFL le datetime'${this._endDate.toISOString()}'`  ).getAll()
-    .then(items=>{
-      
-      this._selectedItems = items.map((item)=>{
-        item.Date_VFL= new Date(item.Date_VFL);
-        item.$$$year= item.Date_VFL.getFullYear();
-        item.$$$mont= item.Date_VFL.getMonth();
-        item.$$$MMM_YY= format(item.Date_VFL, "MMM-YY");
-        
-        return item;
+
+    sp.web.lists.getById(this.properties.list).items.filter(`Date_VFL ge datetime'${this._startDate.toISOString()}' and Date_VFL le datetime'${this._endDate.toISOString()}'`).getAll()
+      .then(items => {
+
+        this._selectedItems = items.map((item) => {
+          item.Date_VFL = new Date(item.Date_VFL);
+          item.$$$year = item.Date_VFL.getFullYear();
+          item.$$$mont = item.Date_VFL.getMonth();
+          item.$$$MMM_YY = format(item.Date_VFL, "MMM-YY");
+
+          return item;
+        });
+        // notify subscribers that the selected event has changed
+        this.context.dynamicDataSourceManager.notifyPropertyChanged('items');
+        this.context.dynamicDataSourceManager.notifyPropertyChanged('startDate');
+        this.context.dynamicDataSourceManager.notifyPropertyChanged('endDate');
+        this.context.dynamicDataSourceManager.notifyPropertyChanged('listUrl');
+        this.errorMessage = "";
+        this.render();
+      })
+      .catch((err) => {
+        debugger;
+        this.errorMessage = err.message;
+        this.render();
       });
-      // notify subscribers that the selected event has changed
-      this.context.dynamicDataSourceManager.notifyPropertyChanged('items');
-      this.context.dynamicDataSourceManager.notifyPropertyChanged('startDate');
-      this.context.dynamicDataSourceManager.notifyPropertyChanged('endDate');
-      this.errorMessage="";
-      this.render();
-    })
-    .catch((err)=>{
-      debugger;
-      this.errorMessage=err.message;
-      this.render();
-    });
   }
   protected onInit(): Promise<void> {
     sp.setup({
@@ -82,7 +72,8 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
     // register this web part as dynamic data source
     this.context.dynamicDataSourceManager.initializeSource(this);
     this._fetchData();
-    return Promise.resolve();
+    return this.setListUrl();
+
   }
 
   /**
@@ -94,13 +85,17 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
       {
         id: 'items',
         title: 'Items'
-      },{
+      }, {
         id: 'startDate',
-        title: 'startDate'
+        title: 'Start Date'
       },
       {
         id: 'endDate',
-        title: 'endDate'
+        title: 'End Date'
+      },
+      {
+        id: 'listUrl',
+        title: 'List', description: 'The URL of the SharePoint List that data is retrieved from '
       },
 
     ];
@@ -109,21 +104,23 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
    * Return the current value of the specified dynamic data set
    * @param propertyId ID of the dynamic data set to retrieve the value for
    */
-  public getPropertyValue(propertyId: string): Array<Item> | Date {
-  
+  public getPropertyValue(propertyId: string): Array<Item> | Date | string {
+
     switch (propertyId) {
       case 'items':
         return this._selectedItems;
-        
-        case 'startDate':
+
+      case 'startDate':
         return this._startDate;
-        
-        case 'endDate':
+
+      case 'endDate':
         return this._endDate;
-        
+      case 'listUrl':
+        return this._listUrl;
+
 
     }
-    this.errorMessage="Invalid Properrty ID";
+    this.errorMessage = "Invalid Properrty ID";
     throw new Error('Bad property id');
   }
 
@@ -132,15 +129,15 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
     const element: React.ReactElement<IHamiltonVflDataProviderProps> = React.createElement(
       HamiltonVflDataProvider,
       {
-        description: this.properties.description,
-        startDateChanged:this._startDateChanged,
-        endDateChanged:this._endDateChanged,fetchData:this._fetchData,
-        startDate:this._startDate,
-        endDate:this._endDate,
-        errorMessage:this.errorMessage
+     
+        startDateChanged: this._startDateChanged,
+        endDateChanged: this._endDateChanged, fetchData: this._fetchData,
+        startDate: this._startDate,
+        endDate: this._endDate,
+        errorMessage: this.errorMessage
       }
     );
- 
+
     ReactDom.render(element, this.domElement);
   }
 
@@ -151,7 +148,24 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
+  protected setListUrl(): Promise<any> {
+    return sp.web.lists.getById(this.properties.list).rootFolder.get()
+      .then((spList) => {
+        debugger;
 
+        this._listUrl = `https://${window.location.hostname}/${spList.ServerRelativeUrl}`
+      }).catch((err) => {
+        debugger;
+        this._listUrl = "";
+      })
+  }
+  protected async onListPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any) {
+    debugger;
+    this.setListUrl().then(() => {
+      this.context.dynamicDataSourceManager.notifyPropertyChanged('listUrl');
+    });
+
+  }
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -172,7 +186,7 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
                   includeHidden: false,
                   orderBy: PropertyFieldListPickerOrderBy.Title,
                   disabled: false,
-                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  onPropertyChange: this.onListPropertyPaneFieldChanged.bind(this),
                   properties: this.properties,
                   context: this.context,
                   onGetErrorMessage: null,
