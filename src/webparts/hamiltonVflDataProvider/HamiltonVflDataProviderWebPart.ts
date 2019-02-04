@@ -153,11 +153,11 @@ export default class HamiltonVflDataProviderWebPart extends BaseClientSideWebPar
       .then((spList) => {
         debugger;
 
-        this._listUrl = `https://${window.location.hostname}/${spList.ServerRelativeUrl}`
+        this._listUrl = `https://${window.location.hostname}/${spList.ServerRelativeUrl}`;
       }).catch((err) => {
         debugger;
         this._listUrl = "";
-      })
+      });
   }
   protected async onListPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any) {
     debugger;

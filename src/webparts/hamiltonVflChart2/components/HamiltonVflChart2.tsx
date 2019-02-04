@@ -60,8 +60,8 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
     // reduce (summarize) the data
     let results = reduce(this.props.items, (memo, curr: Item) => {
       let major = curr[this.props.majorGroup] == null ? "{null}" : curr[this.props.majorGroup];
-      let minor = curr[this.props.minorGroup] == null ? "{null}" : curr[this.props.minorGroup];
-      memo[major][minor] += 1;
+      let minr = curr[this.props.minorGroup] == null ? "{null}" : curr[this.props.minorGroup];
+      memo[major][minr] += 1;
       return memo;
     }, initMemo);
     debugger;
@@ -84,27 +84,30 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
     // onterpoloate the title
     debugger;
     let chartOptions = this.props.chartOptions;
-    let chartTitle: string = chartOptions.title.text;
-    if (this.props.startDate) {
-      chartTitle = chartTitle.replace("${startDate}", this.props.startDate.toLocaleDateString());
-    }
-    if (this.props.endDate) {
-      chartTitle = chartTitle.replace("${endDate}", this.props.endDate.toLocaleDateString());
-    }
+    let chartTitle="";
+    if (chartOptions && chartOptions.title && chartOptions.title.text) {
+       chartTitle = chartOptions.title.text;
+      if (this.props.startDate) {
+        chartTitle = chartTitle.replace("${startDate}", this.props.startDate.toLocaleDateString());
+      }
+      if (this.props.endDate) {
+        chartTitle = chartTitle.replace("${endDate}", this.props.endDate.toLocaleDateString());
+      }
 
-    chartOptions.title.text = chartTitle;
+      chartOptions.title.text = chartTitle;
+    }
 
     //extract data for grid,
     var resultArray = [];
-    for (var result in results) {
-      let copy=results[result];
-      copy.title=result;
+    for (var res in results) {
+      let copy = results[res];
+      copy.title = res;
       resultArray.push(copy);
     }
-    let cols: Array<IColumn> = [{key: 'title', name: '', fieldName: 'title', minWidth: 72,isResizable:true}];
+    let cols: Array<IColumn> = [{ key: 'title', name: '', fieldName: 'title', minWidth: 72, isResizable: true }];
     for (var lbl of uniqMinorGroups) {
       cols.push({
-        key: lbl, name: lbl, fieldName: lbl, minWidth: 72,isResizable:true
+        key: lbl, name: lbl, fieldName: lbl, minWidth: 72, isResizable: true
       });
     }
 
@@ -115,7 +118,7 @@ export default class HamiltonVflChart2 extends React.Component<IHamiltonVflChart
           options={chartOptions}
           onClick={this.onClick}
         />
-         <Label className={styles.header} >{chartTitle +" (details)"} </Label>
+        <Label className={styles.header} >{chartTitle + " (details)"} </Label>
         <DetailsList items={resultArray} columns={cols}
 
         >

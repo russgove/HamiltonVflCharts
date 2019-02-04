@@ -36,10 +36,10 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
     let results = reduce(this.props.items, (memo, curr: Item) => {
       for (var measure2 in this.props.measures) {
         if (curr[this.props.majorGroup] == null) {
-          memo["{null}"][measure2] += (measure2=='*')?1:curr[measure2]; // if measyre us '*' just add to counter
+          memo["{null}"][measure2] += (measure2 == '*') ? 1 : curr[measure2]; // if measyre us '*' just add to counter
         }
         else {
-          memo[curr[this.props.majorGroup]][measure2] +=(measure2=='*')?1: curr[measure2];
+          memo[curr[this.props.majorGroup]][measure2] += (measure2 == '*') ? 1 : curr[measure2];
         }
       }
       return memo;
@@ -57,8 +57,8 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
       if (this.props.majorGroupFieldValueColors[result]) {
         dataset["backgroundColor"] = this.props.majorGroupFieldValueColors[result];
       }
-      for (var measure in this.props.measures) {
-        dataset.data.push(results[result][measure]);
+      for (var ms in this.props.measures) {
+        dataset.data.push(results[result][ms]);
       }
       chartData.datasets.push(dataset);
     }
@@ -66,18 +66,20 @@ export default class HamiltpnVflChart1 extends React.Component<IHamiltpnVflChart
     // onterpoloate the title
     debugger;
     let chartOptions = this.props.chartOptions;
-    let chartTitle: string = chartOptions.title.text;
-    if (this.props.startDate) {
-      chartTitle = chartTitle.replace("${startDate}", this.props.startDate.toLocaleDateString());
+    let chartTitle="";
+    if (chartOptions && chartOptions.title && chartOptions.title.text) {
+       chartTitle = chartOptions.title.text;
+      if (this.props.startDate) {
+        chartTitle = chartTitle.replace("${startDate}", this.props.startDate.toLocaleDateString());
+      }
+      if (this.props.endDate) {
+        chartTitle = chartTitle.replace("${endDate}", this.props.endDate.toLocaleDateString());
+      }
+
+      chartOptions.title.text = chartTitle;
+
+
     }
-    if (this.props.endDate) {
-      chartTitle = chartTitle.replace("${endDate}", this.props.endDate.toLocaleDateString());
-    }
-
-    chartOptions.title.text = chartTitle;
-
-
-
     return (
       <div className={styles.hamiltpnVflChart1}>
         <ChartControl type={ChartType.Bar}

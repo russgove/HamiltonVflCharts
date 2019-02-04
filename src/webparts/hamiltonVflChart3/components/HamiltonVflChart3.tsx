@@ -68,16 +68,16 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
 
     chartData.datasets = [];
     var colorSelectpr: number = 0;
-    for (var measure in this.props.measures) {
+    for (var m2 in this.props.measures) {
 
       let dataset = {
         backgroundColor: this.props.colorPalette[colorSelectpr++],
-        label: measure,
+        label: m2,
         data: []
       };
 
       for (var result in results) {
-        dataset.data.push(results[result][measure]);
+        dataset.data.push(results[result][m2]);
       }
       chartData.datasets.push(dataset);
     }
@@ -85,31 +85,34 @@ export default class HamiltonVflChart3 extends React.Component<IHamiltonVflChart
     // interpoloate the title
 
     let chartOptions = this.props.chartOptions;
-    let chartTitle: string = chartOptions.title.text;
-    if (this.props.startDate) {
-      chartTitle = chartTitle.replace("${startDate}", this.props.startDate.toLocaleDateString());
-    }
-    if (this.props.endDate) {
-      chartTitle = chartTitle.replace("${endDate}", this.props.endDate.toLocaleDateString());
-    }
+    let chartTitle="";
+    if (chartOptions && chartOptions.title && chartOptions.title.text) {
+       chartTitle = chartOptions.title.text;
+      if (this.props.startDate) {
+        chartTitle = chartTitle.replace("${startDate}", this.props.startDate.toLocaleDateString());
+      }
+      if (this.props.endDate) {
+        chartTitle = chartTitle.replace("${endDate}", this.props.endDate.toLocaleDateString());
+      }
 
-    chartOptions.title.text = chartTitle;
+      chartOptions.title.text = chartTitle;
+    }
 
     //extract data for grid,
     var resultArray = [];
 
     let cols: Array<IColumn> = [{ key: 'title', name: '', fieldName: 'title', minWidth: 150, isResizable: true }];
-    for (var m of uniqMajorGroups) {
+    for (var m3 of uniqMajorGroups) {
       cols.push({
-        key: m, name: m, fieldName: m, minWidth: 72, isResizable: true
+        key: m3, name: m3, fieldName: m3, minWidth: 72, isResizable: true
       });
     }
 
 
-    for (var measure in this.props.measures) {
-      let x = { title: measure };
-      for (var result in results) {
-        x[result] = results[result][measure];
+    for (var ms in this.props.measures) {
+      let x = { title: ms };
+      for (var r in results) {
+        x[r] = results[result][ms];
       }
       resultArray.push(x);
 

@@ -43,7 +43,15 @@ export default class HamiltonVflChart2WebPart extends BaseClientSideWebPart<IHam
   protected onInit(): Promise<void> {
     return Promise.resolve();
   }
-
+  public jsonTryParse(json:string):any{
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      console.log(`Error parsing JSON string`);
+      console.log(json);
+      return {};
+    }
+  }
   public render(): void {
 
     var items = [];
@@ -55,9 +63,9 @@ export default class HamiltonVflChart2WebPart extends BaseClientSideWebPart<IHam
     if (this.properties.endDate) { endDate = this.properties.endDate.tryGetValue(); }
     if (this.properties.listUrl) { listUrl = this.properties.listUrl.tryGetValue(); }
 
-    if (this.properties.chartOptions) { chartOptions = JSON.parse(this.properties.chartOptions); }
-    if (this.properties.majorGroupFieldValueColors) { majorGroupFieldValueColors = JSON.parse(this.properties.majorGroupFieldValueColors); }
-    if (this.properties.measures) { measures = JSON.parse(this.properties.measures); }
+    if (this.properties.chartOptions) { chartOptions = this.jsonTryParse(this.properties.chartOptions); }
+    if (this.properties.majorGroupFieldValueColors) { majorGroupFieldValueColors = this.jsonTryParse(this.properties.majorGroupFieldValueColors); }
+    if (this.properties.measures) { measures = this.jsonTryParse(this.properties.measures); }
 
 
     const element: React.ReactElement<IHamiltonVflChart2Props> = React.createElement(
